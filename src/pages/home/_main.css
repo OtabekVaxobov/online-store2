@@ -1,0 +1,15 @@
+@import url('./_aside.css');
+@import url('./_sort.css');
+@import url('./_products.css');
+@import url('./_bnt.css');
+@import url('./_dual-slider.css');
+
+.main-container {
+  margin: 0 auto;
+  max-width: 1200px;
+  color: #343e46;
+}
+
+.main {
+  display: flex;
+}

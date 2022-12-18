@@ -1,0 +1,19 @@
+.btn_default {
+  padding: 8px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #343e46;
+  background: #ffde24;
+  border: none;
+  border-radius: 25px;
+  transition: all .35s ease;
+  cursor: pointer;
+}
+
+.btn_default:hover {
+  background: #e8c812;
+}
+
+.btn_active {
+  background: #95dd1a;
+}

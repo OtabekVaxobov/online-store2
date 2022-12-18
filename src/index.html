@@ -6,5 +6,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>online store</title>
   </head>
-  <body></body>
+  <body>
+    <div class="main-container">
+      <main class="main">
+        <aside class="aside-container">
+          <div class="filters-wrapper">
+            <div class="filter-btn-wpapper">
+              <button class="filter-btn__rest btn_default">Rest</button>
+              <button class="filter-btn__copy btn_default">Copy</button>
+            </div>
+            <div class="filter-group filter-category">
+              <h3 class="filter-group__title">Category</h3>
+              <div class="filter-group-container filter-group-checkbox">
+                <div class="filter-checkbox__item">
+                  <input type="checkbox" id="scales" name="scales" checked />
+                  <label for="scales">Scales</label>
+                </div>
+                <div class="filter-checkbox__item">
+                  <input type="checkbox" id="scales" name="scales" checked />
+                  <label for="scales">Scales</label>
+                </div>
+                <div>
+                  <div class="filter-checkbox__item">
+                    <input type="checkbox" id="scales" name="scales" checked />
+                    <label for="scales">Scales</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="filter-group filter-brand">
+              <h3 class="filter-group__title">Brand</h3>
+              <div class="filter-group-container filter-group-checkbox">
+                <div class="filter-checkbox__item">
+                  <input type="checkbox" id="scales" name="scales" checked />
+                  <label for="scales">Scales</label>
+                </div>
+                <div class="filter-checkbox__item">
+                  <input type="checkbox" id="scales" name="scales" checked />
+                  <label for="scales">Scales</label>
+                </div>
+                <div>
+                  <div class="filter-checkbox__item">
+                    <input type="checkbox" id="scales" name="scales" checked />
+                    <label for="scales">Scales</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="filter-group filter-price">
+              <h3 class="filter-group__title">Price</h3>
+              <div
+                class="filter-group-container dual-slider dual-slider__price"
+              ></div>
+            </div>
+            <div class="filter-group filter-stock">
+              <h3 class="filter-group__title">Stock</h3>
+              <div
+                class="filter-group-container dual-slider dual-slider__stock"
+              ></div>
+              <!--<span class="dual-slider__value">0 - 0</span>
+                <div class="multi-range">
+                  <input class="dual-slider__lower" type="range" />
+                  <input class="dual-slider__upper" type="range" />
+                </div>-->
+            </div>
+          </div>
+        </aside>
+        <section class="products">
+          <div class="products-sort">
+            <div class="sort-bar">
+              <select name="" id="" class="sort-bar__select sort">
+                <option class="sort__item" value="sort-title" disabled selected>
+                  Sort options:
+                </option>
+                <option class="sort__item" value="price-ASC">
+                  Sort by price ASC
+                </option>
+                <option class="sort__item" value="price-DESC">
+                  Sort by price DESC
+                </option>
+                <option class="sort__item" value="rating-ASC">
+                  Sort by rating ASC
+                </option>
+                <option class="sort__item" value="rating-DESC">
+                  Sort by price DESC
+                </option>
+              </select>
+            </div>
+            <div class="quantity">Found: 100</div>
+            <div class="search-bar">
+              <input type="search" placeholder="Search product" />
+            </div>
+            <div class="view-mode">
+              <div class="view-mode__item view-mode__item_small">small</div>
+              <div class="view-mode__item view-mode__item_big">big</div>
+            </div>
+          </div>
+
+          <div class="products-card-wrapper">
+            <div class="product-card"></div>
+            <div class="product-card"></div>
+            <div class="product-card"></div>
+            <div class="product-card"></div>
+            <div class="product-card"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>
