@@ -1,0 +1,34 @@
+.filters-wrapper {
+  padding: 10px;
+  border: 1px solid #d1cece;
+  border-radius: 10px;
+
+}
+
+.filter-btn-wpapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.filter-group-checkbox {
+  max-height: 110px;
+  overflow-y: scroll;
+}
+
+.filter-group__title {
+  margin: 0 0 10px;
+}
+
+.filter-group {
+  padding: 20px 0;
+  border-bottom: 1px solid #d1cece;
+}
+
+.filter-btn-wpapper {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d1cece;
+}
+
+.filters-wrapper > .filter-group:last-child {
+  border-bottom: none;
+}

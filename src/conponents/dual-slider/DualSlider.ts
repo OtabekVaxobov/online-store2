@@ -1,14 +1,13 @@
 import productData from '../../products/productsData';
+import { CreateNodeI, getElement } from '../general/general';
 
 type SliderValue = 'stock' | 'price';
 
-interface DualSliderI {
-  parentClass: string;
+interface DualSliderI extends CreateNodeI {
   readonly sliderValue: SliderValue;
   step: number;
   readonly maxValue: number;
   readonly minValue: number;
-  draw(): void
   renderTitle(minValue: string, maxValue: string): void
 }
 
@@ -27,9 +26,8 @@ export class DualSlider implements DualSliderI {
     this.minValue = 0;
   }
 
-  draw(): void {
-
-    const nodeParent = this.getElement(this.parentClass);
+  draw() {
+    const nodeParent = getElement(this.parentClass);
     const title = document.createElement('span');
     title.textContent = '0 - 0';
     title.classList.add('dual-slider__value');
@@ -77,7 +75,7 @@ export class DualSlider implements DualSliderI {
     })
 
     lowerSlider.addEventListener('change', (event) => {
-      console.log('current upper value: ' + lowerSlider.value)
+      console.log('current lower value: ' + lowerSlider.value)
     })
 
     lowerSlider.addEventListener('input', (event) => {
@@ -96,20 +94,12 @@ export class DualSlider implements DualSliderI {
   }
 
   renderTitle(minValue: string, maxValue: string) {
-    const nodeParent = this.getElement(this.parentClass);
-    const title = this.getElement('.dual-slider__value', nodeParent);
+    const nodeParent = getElement(this.parentClass);
+    const title = getElement('.dual-slider__value', nodeParent);
     if (!(title instanceof HTMLSpanElement)) {
       throw new Error('title is not span!');
     }
     title.textContent = `${minValue} - ${maxValue}`;
-  }
-
-  private getElement(selector: string, parent: Element | Document = document): Element {
-    const element = parent.querySelector(selector);
-    if (!(element instanceof Element)) {
-      throw new Error('element is not html element!');
-    }
-    return element;
   }
 
   private getMaxValue(): number {
