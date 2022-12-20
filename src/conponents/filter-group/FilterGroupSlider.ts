@@ -7,7 +7,7 @@ export class FilterGroupSlider extends FilterGroup {
     super(parentClass, groupName);
   }
 
-  async draw() {
+  draw() {
     const nodeParent = getElement(this.parentClass);
 
     const wrapper = document.createElement('div');

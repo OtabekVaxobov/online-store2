@@ -17,3 +17,10 @@
 .btn_active {
   background: #95dd1a;
 }
+
+.product-card__btn-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 11px 11px;
+}

@@ -5,7 +5,6 @@ type SliderValue = 'stock' | 'price';
 
 interface DualSliderI extends CreateNodeI {
   readonly sliderValue: SliderValue;
-  step: number;
   readonly maxValue: number;
   readonly minValue: number;
   renderTitle(minValue: string, maxValue: string): void
@@ -14,7 +13,7 @@ interface DualSliderI extends CreateNodeI {
 export class DualSlider implements DualSliderI {
   parentClass;
   sliderValue;
-  step;
+  private _step;
   maxValue;
   minValue;
 
@@ -22,7 +21,7 @@ export class DualSlider implements DualSliderI {
     this.parentClass = parentClass;
     this.sliderValue = sliderValue;
     this.maxValue = this.getMaxValue();
-    this.step = Math.max(Math.floor(this.maxValue / 20), 1);
+    this._step = Math.max(Math.floor(this.maxValue / 20), 1);
     this.minValue = 0;
   }
 
@@ -61,10 +60,10 @@ export class DualSlider implements DualSliderI {
       const lowerVal: number = parseInt(lowerSlider.value);
       const upperVal: number = parseInt(upperSlider.value);
     
-      if (upperVal < lowerVal + this.step) {
-      lowerSlider.value = (upperVal - this.step).toString();
+      if (upperVal < lowerVal + this._step) {
+      lowerSlider.value = (upperVal - this._step).toString();
         if (lowerVal.toString() === lowerSlider.min) {
-          upperSlider.value = String(this.step);
+          upperSlider.value = String(this._step);
         }
       }
       this.renderTitle(lowerSlider.value, upperSlider.value);
@@ -82,11 +81,11 @@ export class DualSlider implements DualSliderI {
       const lowerVal: number = parseInt(lowerSlider.value);
       const upperVal: number = parseInt(upperSlider.value);
        
-       if (lowerVal > upperVal - this.step) {
-          upperSlider.value = (upperVal + this.step).toString();
+       if (lowerVal > upperVal - this._step) {
+          upperSlider.value = (upperVal + this._step).toString();
           
           if (upperVal.toString() === upperSlider.max) {
-            lowerSlider.value = (parseInt(upperSlider.max) - this.step).toString();
+            lowerSlider.value = (parseInt(upperSlider.max) - this._step).toString();
           }
        }
        this.renderTitle(lowerSlider.value, upperSlider.value);

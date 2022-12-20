@@ -1,4 +1,6 @@
-interface DataI {
+type ObjectKeyString = {[key: string]: any};
+
+interface DataI extends ObjectKeyString {
   "id": number;
   "title": string;
   "description": string;
