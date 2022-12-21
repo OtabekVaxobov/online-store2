@@ -7,6 +7,7 @@
     <title>online store</title>
   </head>
   <body>
+    <img hidden src="./img/basket.svg" alt="" />
     <div class="main-container">
       <main class="main">
         <aside class="aside-container">
@@ -15,91 +16,12 @@
               <button class="filter-btn__rest btn_default">Rest</button>
               <button class="filter-btn__copy btn_default">Copy</button>
             </div>
-
-            <!--<div class="filter-group filter-price">
-              <h3 class="filter-group__title">Price</h3>
-              <div class="dual-slider dual-slider__price"></div>
-            </div>
-            <div class="filter-group filter-stock">
-              <h3 class="filter-group__title">Stock</h3>
-              <div class="dual-slider dual-slider__stock"></div>
-            </div>-->
+            <div class="filters-wrapper__checkbox"></div>
+            <div class="filters-wrapper__slider"></div>
           </div>
         </aside>
         <section class="products">
-          <div class="products-sort">
-            <div class="sort-bar">
-              <select name="" id="" class="sort-bar__select sort">
-                <option class="sort__item" value="sort-title" disabled selected>
-                  Sort options:
-                </option>
-                <option class="sort__item" value="price-ASC">
-                  Sort by price ASC
-                </option>
-                <option class="sort__item" value="price-DESC">
-                  Sort by price DESC
-                </option>
-                <option class="sort__item" value="rating-ASC">
-                  Sort by rating ASC
-                </option>
-                <option class="sort__item" value="rating-DESC">
-                  Sort by price DESC
-                </option>
-              </select>
-            </div>
-            <div class="quantity">Found: 100</div>
-            <div class="search-bar">
-              <input type="search" placeholder="Search product" />
-            </div>
-            <div class="view-mode">
-              <div class="view-mode__item view-mode__item_small">small</div>
-              <div class="view-mode__item view-mode__item_big">big</div>
-            </div>
-          </div>
-
-          <div class="products-card-wrapper">
-            <!--<div class="product-card">
-              <span class="product-card__title">iPhone 9</span>
-              <img
-                class="product-card__img"
-                src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-                alt="iPhone 9"
-              />
-              <div class="product-card__info">
-                <div>
-                  <span class="product-card__name-group">Category: </span
-                  ><span class="product-card__category">iPhone 9</span>
-                </div>
-                <div>
-                  <span class="product-card__name-group">Brand: </span
-                  ><span class="product-card__brand">iPhone 9</span>
-                </div>
-                <div>
-                  <span class="product-card__name-group">Discount: </span
-                  ><span class="product-card__discount">iPhone 9</span>
-                </div>
-                <div>
-                  <span class="product-card__name-group">Rating: </span
-                  ><span class="product-card__rating">iPhone 9</span>
-                </div>
-                <div>
-                  <span class="product-card__name-group">Stock: </span
-                  ><span class="product-card__stock">iPhone 9</span>
-                </div>
-              </div>
-
-              <div class="product-card__buy">
-                <span class="product-card__price">186 $</span>
-                <button class="btn_default product-card__btn-cart">
-                  <img
-                    class="product-card__img-cart"
-                    src="../src/img/cart.svg"
-                    alt="cart"
-                  />
-                </button>
-              </div>
-            </div>-->
-          </div>
+          <div class="products-card-wrapper"></div>
         </section>
       </main>
     </div>

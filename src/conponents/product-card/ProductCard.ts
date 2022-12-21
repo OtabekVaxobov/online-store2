@@ -60,6 +60,7 @@ export class ProductCard implements ProductCardI {
     const imgCart = document.createElement('img');
     imgCart.classList.add('product-card__img-cart');
     imgCart.src = this.pathImgCart;
+    //imgCart.src = '../../img/cart2.svg';
     btnCart.append(imgCart);
     cardBuy.append(btnCart);
 

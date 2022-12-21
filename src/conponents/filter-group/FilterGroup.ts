@@ -19,9 +19,9 @@ export interface FilterGroupI extends CreateNodeI {
 }
 
 export class FilterGroup implements FilterGroupI {
-  parentClass: string;
-  groupName: GroupProperties;
-  additionalClass: string;
+  readonly parentClass: string;
+  readonly groupName: GroupProperties;
+  readonly additionalClass: string;
 
   constructor(parentClass: string, groupName: GroupProperties, additionalClass?: string) {
     this.parentClass = parentClass;

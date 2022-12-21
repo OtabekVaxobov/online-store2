@@ -8,7 +8,6 @@
 .products-card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto;
 }
 
 .product-card {
@@ -19,8 +18,8 @@
   width: calc((100% - 40px) / 4);
   margin: 5px;
   padding: 10px;
-  min-width: 150px;
-  border: 1px solid #ece5e5;
+  min-width: 180px;
+  border: 1px solid var(--main-border-color);
   cursor: pointer;
   position: relative;
   border-radius: 10px;
@@ -84,4 +83,23 @@
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
+}
+
+@media screen and (max-width: 1070px) {
+  .product-card {
+    width: calc((100% - 30px) / 3);
+  }
+}
+
+@media screen and (max-width: 825px) {
+  .product-card {
+    width: calc((100% - 20px) / 2);
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .product-card {
+    margin: 5px 0;
+    width: 100%;
+  }
 }

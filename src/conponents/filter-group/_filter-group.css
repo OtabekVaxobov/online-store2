@@ -1,6 +1,6 @@
 .filters-wrapper {
   padding: 10px;
-  border: 1px solid #d1cece;
+  border: 1px solid var(--main-border-color);
   border-radius: 10px;
 
 }
@@ -21,12 +21,12 @@
 
 .filter-group {
   padding: 20px 0;
-  border-bottom: 1px solid #d1cece;
+  border-bottom: 1px solid var(--main-border-color);
 }
 
 .filter-btn-wpapper {
   padding-bottom: 10px;
-  border-bottom: 1px solid #d1cece;
+  border-bottom: 1px solid var(--main-border-color);
 }
 
 .filters-wrapper > .filter-group:last-child {

@@ -39,7 +39,7 @@
   height: 21px;
   width: 21px;
   border-radius: 21px;
-  background-color: #ffde24;
+  background-color: var(--yellow);
   cursor: pointer;
   appearance: none;
   pointer-events: all;

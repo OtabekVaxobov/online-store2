@@ -34,15 +34,15 @@
   left: 0;
   height: 1rem;
   width: 1rem;
-  background-color: #eeeeee;
+  background-color: var(--main-bg-color);
 }
 
 .checkbox-item:hover .checkbox-item__checkmark {
-  background-color: #cccccc;
+  background-color: #b3b0b0;
 }
 
 .checkbox-item__input:checked + .checkbox-item__checkmark {
-  background-color: #ffde24;
+  background-color: var(--yellow);
 }
 
 .checkbox-item__checkmark:after {
@@ -60,7 +60,7 @@
   top: 2px;
   width: 3px;
   height: 7px;
-  border: solid black;
+  border: 1px solid black;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
