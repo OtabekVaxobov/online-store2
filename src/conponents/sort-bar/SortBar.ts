@@ -1,5 +1,6 @@
 import { CreateNodeI, getElement } from '../general/general';
-import productData from '../../products/productsData';
+import { productData } from '../../products/productsData';
+import { QueryParameters, FilteredProducts } from '../queryParameters/QueryParameters';
 
 type SortOption = {
   property: 'price' | 'rating',
@@ -42,12 +43,29 @@ export class SortBar implements SortBarI {
     wrapperAmountView.append(viewMode);
     wrapper.append(wrapperAmountView);
     nodeParent.prepend(wrapper);
+
+    viewMode.addEventListener('click', (event) => {
+      const target = event.target;
+      if ( !(target instanceof HTMLDivElement) ) return;
+      QueryParameters.add('big', String(target.dataset.viewMode === 'big'))
+    })
+
+    selectBar.addEventListener('change', (event) => {
+      const target = event.target;
+      if ( !(target instanceof HTMLSelectElement) ) return;
+      const value = target.value.toLowerCase();
+      const sortOptionStr = target.options[target.selectedIndex].dataset.sort;
+      if (sortOptionStr) {
+        const sortOption = JSON.parse(sortOptionStr);
+        QueryParameters.add('sort', `${sortOption.property}-${sortOption.direction}`);
+      }
+    })
   }
 
   renderAmountFound() {
     setTimeout(() => {
       const amount = getElement('.amount-found');
-      amount.textContent = `Found: ${this.amountFound}`;
+      amount.textContent = `Found: ${FilteredProducts.result.length}`;
     }, 0);
   }
 
@@ -57,9 +75,23 @@ export class SortBar implements SortBarI {
 
     const small = document.createElement('div');
     small.classList.add('view-mode__item', 'view-mode__item_small');
+    small.setAttribute('data-view-mode', 'small');
 
     const big = document.createElement('div');
     big.classList.add('view-mode__item', 'view-mode__item_big');
+    big.setAttribute('data-view-mode', 'big');
+
+    const param = QueryParameters.get('big');
+    if (param) {
+      const bigMode = param.values().next().value === 'true';
+      if (bigMode) {
+        big.classList.add('view-mode__item_active');
+        small.classList.remove('view-mode__item_active');
+      } else {
+        small.classList.add('view-mode__item_active');
+        big.classList.remove('view-mode__item_active');
+      }
+    }
 
     wrapper.append(small);
     wrapper.append(big);
@@ -76,6 +108,22 @@ export class SortBar implements SortBarI {
     input.placeholder = 'Search product';
     input.autocomplete = 'off';
     input.autofocus = true;
+    const param = QueryParameters.get('search');
+    if (param) {
+      input.value = param.values().next().value;
+    } else {
+      input.value = '';
+    }
+
+    input.addEventListener('input', (event) => {
+      const target = event.target;
+      if ( !(target instanceof HTMLInputElement) ) return;
+      if (target.value === '') {
+        QueryParameters.delete('search');
+      } else {
+        QueryParameters.add('search', target.value);
+      }
+    })
 
     wrapper.append(input);
     return wrapper;
@@ -103,9 +151,19 @@ export class SortBar implements SortBarI {
     {property: 'rating', direction: 'ASC'},
     {property: 'rating', direction: 'DESC'}]
     
+    const param = QueryParameters.get('sort');
+    let querySort: String = '';
+    if (param) {
+      querySort = String(param.values().next().value);
+    }
+
     sortArr.forEach(sort => {
       const option = nodeOption.cloneNode(true) as HTMLOptionElement;
-      option.setAttribute('data-sort', JSON.stringify(sort));
+      const sortStr = JSON.stringify(sort);
+      option.setAttribute('data-sort', sortStr);
+      if (`${sort.property}-${sort.direction}` === querySort) {
+        option.selected = true;
+      }
       option.textContent = `Sort by ${sort.property} ${sort.direction}`;
       select.append(option);
     })
@@ -120,6 +178,7 @@ export class SortBar implements SortBarI {
   set amountFound(value: number) {
     if (value >= 0) {
       this._amountFound = value;
+      this.renderAmountFound();
     }
   }
 

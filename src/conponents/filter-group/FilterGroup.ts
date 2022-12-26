@@ -1,5 +1,6 @@
-import productData from '../../products/productsData';
+import { productData } from '../../products/productsData';
 import { CreateNodeI, getElement } from '../general/general';
+import { QueryParameters, FilteredProducts } from '../queryParameters/QueryParameters';
 
 export type GroupProperties = {
   name: 'category' | 'brand' | 'stock' | 'price';
@@ -73,6 +74,7 @@ export class FilterGroup implements FilterGroupI {
     nodeCheckbox.append(nodeSpanCount);
 
     const group: {[key: string]: number} = {};
+
     for (let i = 0; i < productData.products.length; i += 1) {
       let curValue = productData.products[i];
       let groupName = curValue[this.groupName.name];
@@ -80,30 +82,43 @@ export class FilterGroup implements FilterGroupI {
       group[groupName] += 1;
     }
 
+    const groupFiltered: {[key: string]: number} = {};
+    for (let i = 0; i < FilteredProducts.result.length; i += 1) {
+      let curValue = FilteredProducts.result[i];
+      let groupName = curValue[this.groupName.name];
+      groupFiltered[groupName] = groupFiltered[groupName] || 0;
+      groupFiltered[groupName] += 1;
+    }
+
+    const parameters = QueryParameters.get(this.groupName.name);
     for (const key in group) {
       const checkbox = nodeCheckbox.cloneNode(true) as HTMLDivElement;
       checkbox.children[0].children[0].textContent = key;
-      if (checkbox.children[0].children[1] instanceof HTMLInputElement) {
-        checkbox.children[0].children[1].setAttribute('data-group-name', key);
+      const input = checkbox.children[0].children[1];
+      if (input instanceof HTMLInputElement) {
+        input.setAttribute('data-group-name', key);
+        if (parameters?.has(key)) input.checked = true;
       }
-      checkbox.children[1].textContent = `${group[key]}/${group[key]}`;
+      const available = groupFiltered[key] || 0;
+      checkbox.children[1].textContent = `${available}/${group[key]}`;
+      if (available === 0) {
+        checkbox.classList.add('checkbox-item__empty');
+      }
       checkboxes.append(checkbox);
     }
 
     checkboxes.addEventListener('change', (event) => {
-      let target = event.target as Node;
-      if (target instanceof HTMLInputElement) {
-        console.log(`group ${target.dataset.groupName} ${(target.checked) ? 'set' : 'delete'}`)
+      let target = event.target;
+      if (target instanceof HTMLInputElement && target.dataset.groupName !== undefined) {
+        if (target.checked) {
+          QueryParameters.add(this.groupName.name, target.dataset.groupName, true);
+          FilteredProducts.LastFilter = this.groupName.name;
+        } else {
+          QueryParameters.delete(this.groupName.name, target.dataset.groupName);
+        }
       }
-      //target = this.checkTypeElement<HTMLInputElement>(target, 'INPUT');
     })
 
   }
 
-  /*private checkTypeElement<T>(node: Node | null, typeSrt: string): T {
-    if (node?.nodeName === typeSrt) {
-      return node as T;
-    }
-    throw new Error('unknown type');
-  }*/
 }

@@ -1,5 +1,6 @@
-import productData from '../../products/productsData';
+import { DataI, productData } from '../../products/productsData';
 import { CreateNodeI, getElement } from '../general/general';
+import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
 
 export interface ProductCardI extends CreateNodeI {
   pathImgCart: string;
@@ -8,47 +9,76 @@ export interface ProductCardI extends CreateNodeI {
 export class ProductCard implements ProductCardI {
   readonly parentClass: string;
   readonly pathImgCart: string;
-  private _length: number;
+  showInfo: boolean;
 
   constructor(parentClass: string, pathImgCart: string) {
     this.parentClass = parentClass;
     this.pathImgCart = pathImgCart;
-    this._length = 0;
+    this.showInfo = true;
   }
 
-  draw() {
+  draw(): void {
     const nodeParent = getElement(this.parentClass);
-    const card = this.createCard();
 
-    productData.products.forEach(product => {
-      const cardNode = card.cloneNode(true) as HTMLDivElement;
+    if (FilteredProducts.result.length === 0) {
+      const title = document.createElement('div');
+      title.classList.add('massage-info');
+      title.textContent = 'No products found';
+      nodeParent.append(title);
+      return;
+    }
+
+    const param = QueryParameters.get('big');
+    if (param) {
+      this.showInfo = param.values().next().value === 'true';
+    }
+
+    const card = this.createCard();
+    FilteredProducts.result.forEach(product => {
+      setTimeout(() => {
+        this.renderCard(nodeParent, card, product);
+      }, 0);
+    })
+  }
+
+  private renderCard(nodeParent: Element, card: HTMLDivElement, product: DataI) {
+    const cardNode = card.cloneNode(true) as HTMLDivElement;
       cardNode.children[0].textContent = product.title;
+      cardNode.children[0].setAttribute('title', product.title);
       const img = cardNode.children[1] as HTMLImageElement;
       img.src = product.thumbnail;
+      
       img.alt = product.title;
       const info = cardNode.children[2].children[0];
-      for (let i = 0; i < info.children.length; i += 1) {
-        let span = info.children[i].children[1] as HTMLSpanElement;
-        let nameGroups = span.dataset.nameGroup;
-        if (nameGroups !== undefined) {
-          span.textContent = product[nameGroups] + ((nameGroups === 'discountPercentage') ? '%' : '');
+      
+      if (this.showInfo) {
+        for (let i = 0; i < info.children.length; i += 1) {
+          let span = info.children[i].children[1] as HTMLSpanElement;
+          let nameGroups = span.dataset.nameGroup;
+          if (nameGroups !== undefined) {
+            span.textContent = product[nameGroups] + ((nameGroups === 'discountPercentage') ? '%' : '');
+            if (nameGroups === 'brand') {
+              span.setAttribute('title', product[nameGroups]);
+            }
+          }
         }
       }
-      cardNode.children[2].children[1].children[0].textContent = `${product.price} $`;
+      
+      const childIndex = (this.showInfo) ? 1 : 0;
+      cardNode.children[2].children[childIndex].children[0].textContent = `${product.price} $`;
       nodeParent.append(cardNode);
-      this._length += 1;
-    })
   }
 
   createCard(): HTMLDivElement {
     const wrapperCard = document.createElement('div');
     wrapperCard.classList.add('product-card');
+    if (!this.showInfo) {
+      wrapperCard.classList.add('product-card__small');
+    }
 
     const title = this.createSpan('product-card__title');
     const productImg = document.createElement('img');
     productImg.classList.add('product-card__img');
-
-    const productInfo = this.createInfo();
 
     const cardBuy = document.createElement('div');
     cardBuy.classList.add('product-card__buy');
@@ -60,12 +90,15 @@ export class ProductCard implements ProductCardI {
     const imgCart = document.createElement('img');
     imgCart.classList.add('product-card__img-cart');
     imgCart.src = this.pathImgCart;
-    //imgCart.src = '../../img/cart2.svg';
     btnCart.append(imgCart);
     cardBuy.append(btnCart);
 
     const infoBuyWrapper = document.createElement('div');
-    infoBuyWrapper.append(productInfo);
+    if (this.showInfo) {
+      const productInfo = this.createInfo();
+      infoBuyWrapper.append(productInfo);
+    }
+    
     infoBuyWrapper.append(cardBuy);
 
     wrapperCard.append(title);
@@ -77,12 +110,6 @@ export class ProductCard implements ProductCardI {
   private createInfo(): HTMLDivElement {
     const productInfo = document.createElement('div');
     productInfo.classList.add('product-card__info-wrapper');
-
-    /*productInfo.append(this.createItemInfo('product-card__category', 'Category: ', 'category'));
-    productInfo.append(this.createItemInfo('product-card__brand', 'Brand: ', 'brand'));
-    productInfo.append(this.createItemInfo('product-card__discount', 'Discount: ', 'discountPercentage'));
-    productInfo.append(this.createItemInfo('product-card__rating', 'Rating: ', 'rating'));
-    productInfo.append(this.createItemInfo('product-card__stock', 'Stock: ', 'stock'));*/
 
     productInfo.append(this.createItemInfo('Category: ', 'category'));
     productInfo.append(this.createItemInfo('Brand: ', 'brand'));
@@ -104,10 +131,6 @@ export class ProductCard implements ProductCardI {
     infoWrapper.append(nameGroupSpan);
     infoWrapper.append(groupValue);
     return infoWrapper;
-  }
-
-  public get length(): number {
-    return this._length;
   }
 
   private createSpan(className: string): HTMLSpanElement {
