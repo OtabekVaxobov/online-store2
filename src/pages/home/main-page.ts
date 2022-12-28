@@ -3,10 +3,6 @@ import { FilterGroupSlider } from '../../conponents/filter-group/FilterGroupSlid
 import { SortBar } from '../../conponents/sort-bar/SortBar';
 import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
-import { productData } from '../../products/productsData';
-import  HeaderComponent  from '../../conponents/header/Header';
-
-const basket = document.getElementById("basket");
 
 export class MainPage {
   groupCategory: FilterGroup;
@@ -25,7 +21,6 @@ export class MainPage {
   }
 
   draw() {
-    HeaderComponent(basket);
     QueryParameters.check();
     FilteredProducts.filter();
     this.groupCategory.draw();

@@ -2,7 +2,6 @@
 @import url('../../conponents/sort-bar/_sort.css');
 @import url('./_products.css');
 @import url('./_bnt.css');
-@import url('./_header.css');
 
 .main-container {
   margin: 0 auto;
