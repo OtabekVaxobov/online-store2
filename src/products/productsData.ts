@@ -1,4 +1,6 @@
-interface DataI {
+type ObjectKeyString = {[key: string]: any};
+
+export interface DataI extends ObjectKeyString {
   "id": number;
   "title": string;
   "description": string;
@@ -19,7 +21,7 @@ interface ProductDataI {
   "limit": number;
 }
 
-const productData: ProductDataI = {
+export const productData: ProductDataI = {
   "products": [{
       "id": 1,
       "title": "iPhone 9",
@@ -1225,5 +1227,3 @@ const productData: ProductDataI = {
   "skip": 0,
   "limit": 100
 }
-
-export default productData;

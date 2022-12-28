@@ -1,0 +1,8 @@
+@import url('../../conponents/filter-group/_filter-group.css');
+@import url('../../conponents/filter-group/_checkbox.css');
+@import url('../../conponents/dual-slider/_dual-slider.css');
+
+.aside-container {
+  width: 25%;
+  min-width: 200px;
+}

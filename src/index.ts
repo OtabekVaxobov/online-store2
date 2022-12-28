@@ -1,9 +1,7 @@
 import './index.html';
 import './index.css';
-import productData from './products/productsData';
+import { MainPage } from './pages/home/main-page';
 
+const mainPage = new MainPage();
+mainPage.draw();
 
-const arr = productData.products;
-arr.forEach(value => {
-  console.log(value.price);
-})

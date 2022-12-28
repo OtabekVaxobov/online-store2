@@ -1,0 +1,77 @@
+@import url('./_aside.css');
+@import url('../../conponents/sort-bar/_sort.css');
+@import url('./_products.css');
+@import url('./_bnt.css');
+
+.main-container {
+  margin: 0 auto;
+  max-width: 1200px;
+  color: #343e46;
+  font-family: 'Work Sans', sans-serif;
+}
+
+.main {
+  display: flex;
+}
+
+.massage-info {
+  margin: 50px auto;
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 615px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .aside-container {
+    width: 100%;
+  }
+
+  .products {
+    width: 100%;
+    margin: 0;
+  }
+
+  .filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    width: 48%;
+  }
+
+  .filters-wrapper__slider,
+  .filters-wrapper__checkbox {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .select-wrapper {
+    width: 35%;
+  }
+
+  .sort-bar__select {
+    width: 100%;
+  }
+
+  .products-sort {
+    margin: 10px 0;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .filters-wrapper__slider,
+  .filters-wrapper__checkbox {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+}
