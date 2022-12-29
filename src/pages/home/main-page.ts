@@ -3,7 +3,20 @@ import { FilterGroupSlider } from '../../components/filter-group/FilterGroupSlid
 import { SortBar } from '../../components/sort-bar/SortBar';
 import { ProductCard } from '../../components/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../components/queryParameters/QueryParameters';
+// import { productData } from '../../products/productsData';
+import  HeaderComponent  from '../../components/header/header'
 
+// const basket = document.getElementsByClassName("product-card");
+// let count = document.querySelectorAll('.product-card').forEach((text) => {
+//   // var result = document.getElementsByClassName("result")[0]; 
+//   console.log(text)    
+//   //    result.innerHTML += text.innerText + ' ';
+//   return text as any
+  
+// })
+
+
+const cards: NodeList = document.querySelectorAll('.product-card');
 export class MainPage {
   groupCategory: FilterGroup;
   groupBrand: FilterGroup;
@@ -21,6 +34,7 @@ export class MainPage {
   }
 
   draw() {
+    HeaderComponent(cards)
     QueryParameters.check();
     FilteredProducts.filter();
     this.groupCategory.draw();
