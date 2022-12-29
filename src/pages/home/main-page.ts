@@ -1,8 +1,8 @@
-import { FilterGroup, FildeGroup } from '../../conponents/filter-group/FilterGroup';
-import { FilterGroupSlider } from '../../conponents/filter-group/FilterGroupSlider';
-import { SortBar } from '../../conponents/sort-bar/SortBar';
-import { ProductCard } from '../../conponents/product-card/ProductCard';
-import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
+import { FilterGroup, FildeGroup } from '../../components/filter-group/FilterGroup';
+import { FilterGroupSlider } from '../../components/filter-group/FilterGroupSlider';
+import { SortBar } from '../../components/sort-bar/SortBar';
+import { ProductCard } from '../../components/product-card/ProductCard';
+import { QueryParameters, FilteredProducts } from '../../components/queryParameters/QueryParameters';
 
 export class MainPage {
   groupCategory: FilterGroup;
