@@ -3,6 +3,7 @@ import { FilterGroupSlider } from '../../conponents/filter-group/FilterGroupSlid
 import { SortBar } from '../../conponents/sort-bar/SortBar';
 import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
+import { CreateNodeI, getElement } from '../../conponents/general/general';
 
 export class MainPage {
   groupCategory: FilterGroup;
@@ -23,6 +24,7 @@ export class MainPage {
   draw() {
     QueryParameters.check();
     FilteredProducts.filter();
+    this.createPageBasis();
     this.groupCategory.draw();
     this.groupBrand.draw();
     this.sliderPrice.draw();
@@ -30,6 +32,49 @@ export class MainPage {
     this.sortBar.draw();
     this.productCard.draw();
     this.addListeneres();
+  }
+
+  private createPageBasis() {
+    const container = getElement('.body-container');
+    const main = document.createElement('main');
+    main.classList.add('main');
+    const aside = document.createElement('aside');
+    aside.classList.add('aside-container');
+
+    const filtersWrapper = document.createElement('div');
+    filtersWrapper.classList.add('filters-wrapper');
+
+    const filterBtnWpapper = document.createElement('div');
+    filterBtnWpapper.classList.add('filter-btn-wpapper');
+    const btnRest = document.createElement('button');
+    btnRest.textContent = 'Rest';
+    btnRest.classList.add('filter-btn__rest', 'btn_default');
+    const btnCopy = document.createElement('button');
+    btnCopy.textContent = 'Copy';
+    btnCopy.classList.add('filter-btn__copy', 'btn_default');
+    filterBtnWpapper.append(btnRest);
+    filterBtnWpapper.append(btnCopy);
+
+    const checkbox = document.createElement('div');
+    checkbox.classList.add('filters-wrapper__checkbox');
+    const slider = document.createElement('div');
+    slider.classList.add('filters-wrapper__slider');
+
+    filtersWrapper.append(filterBtnWpapper);
+    filtersWrapper.append(checkbox);
+    filtersWrapper.append(slider);
+
+    const sectionProducts = document.createElement('section');
+    sectionProducts.classList.add('products');
+    const productsWrapper = document.createElement('div');
+    productsWrapper.classList.add('products-card-wrapper');
+    sectionProducts.append(productsWrapper);
+
+    aside.append(filtersWrapper);
+    main.append(aside);
+    main.append(sectionProducts);
+
+    container.append(main);
   }
   
   private addListeneres() {

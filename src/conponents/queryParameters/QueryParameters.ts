@@ -144,6 +144,11 @@ export class FilteredProducts {
         }
       }
 
+      if (this.minPrice === -1) {
+        this.minPrice = product.price;
+        this.minStock = product.stock;
+      }
+
       this.minPrice = (parameters.price_min && curFilter === 'price') ? Number(parameters.price_min) : Math.min(this.minPrice, product.price);
       this.maxPrice = (parameters.price_max && curFilter === 'price') ? Number(parameters.price_max) : Math.max(this.maxPrice, product.price);
       this.minStock = (parameters.stock_min && curFilter === 'stock') ? Number(parameters.stock_min) : Math.min(this.minStock, product.stock);
@@ -161,13 +166,15 @@ export class FilteredProducts {
       const sortParameters = parameters.sort.split('-');
       const directionASC = sortParameters[1].toString().toLowerCase() === 'asc';
       const groupName = sortParameters[0];
-      this.result.sort((a, b) => {
-        if (directionASC) {
-          return a[groupName] - b[groupName];
-        } else {
-          return b[groupName] - a[groupName];
-        }
-      })
+      if (groupName === 'rating' || groupName === 'price') {
+        this.result.sort((a, b) => {
+          if (directionASC) {
+            return a[groupName] - b[groupName];
+          } else {
+            return b[groupName] - a[groupName];
+          }
+        })
+      }
     }
   }
   
