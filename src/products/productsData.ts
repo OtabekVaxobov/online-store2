@@ -1,4 +1,5 @@
-type ObjectKeyString = {[key: string]: any};
+type ObjValue = string | number | string [];
+type ObjectKeyString = {[key: string]: ObjValue};
 
 export interface DataI extends ObjectKeyString {
   "id": number;

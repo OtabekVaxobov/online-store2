@@ -41,14 +41,29 @@ export class ProductCard implements ProductCardI {
     })
   }
 
+  private async setImg(url: string, img: HTMLImageElement) {
+    let response = await fetch(url);
+    if (response.ok) {
+      let blob = await response.blob();
+      img.src = URL.createObjectURL(blob);
+    } else {
+      setTimeout(async () => {
+        response = await fetch(url);
+        let blob = await response.blob();
+        img.src = URL.createObjectURL(blob);
+      }, 5000);
+    }
+  }
+
   private renderCard(nodeParent: Element, card: HTMLDivElement, product: DataI) {
     const cardNode = card.cloneNode(true) as HTMLDivElement;
       cardNode.children[0].textContent = product.title;
       cardNode.children[0].setAttribute('title', product.title);
       const img = cardNode.children[1] as HTMLImageElement;
-      img.src = product.thumbnail;
-      
+      //img.src = product.thumbnail;
+      this.setImg(product.thumbnail, img)
       img.alt = product.title;
+      img.loading = 'lazy';
       const info = cardNode.children[2].children[0];
       
       if (this.showInfo) {
