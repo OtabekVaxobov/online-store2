@@ -1,6 +1,8 @@
 import { DataI, productData } from '../../products/productsData';
 import { CreateNodeI, getElement } from '../general/general';
 import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
+//import { handlerLocation } from '../../../src/index';
+import { Route } from '../routes//Routes';
 
 export interface ProductCardI extends CreateNodeI {
   pathImgCart: string;
@@ -39,17 +41,19 @@ export class ProductCard implements ProductCardI {
         this.renderCard(nodeParent, card, product);
       }, 0);
     })
+
+    this.addListeners();
   }
 
   private async setImg(url: string, img: HTMLImageElement) {
     let response = await fetch(url);
     if (response.ok) {
-      let blob = await response.blob();
+      const blob = await response.blob();
       img.src = URL.createObjectURL(blob);
     } else {
       setTimeout(async () => {
         response = await fetch(url);
-        let blob = await response.blob();
+        const blob = await response.blob();
         img.src = URL.createObjectURL(blob);
       }, 5000);
     }
@@ -57,31 +61,32 @@ export class ProductCard implements ProductCardI {
 
   private renderCard(nodeParent: Element, card: HTMLDivElement, product: DataI) {
     const cardNode = card.cloneNode(true) as HTMLDivElement;
-      cardNode.children[0].textContent = product.title;
-      cardNode.children[0].setAttribute('title', product.title);
-      const img = cardNode.children[1] as HTMLImageElement;
-      //img.src = product.thumbnail;
-      this.setImg(product.thumbnail, img)
-      img.alt = product.title;
-      img.loading = 'lazy';
-      const info = cardNode.children[2].children[0];
-      
-      if (this.showInfo) {
-        for (let i = 0; i < info.children.length; i += 1) {
-          let span = info.children[i].children[1] as HTMLSpanElement;
-          let nameGroups = span.dataset.nameGroup;
-          if (nameGroups !== undefined) {
-            span.textContent = product[nameGroups] + ((nameGroups === 'discountPercentage') ? '%' : '');
-            if (nameGroups === 'brand') {
-              span.setAttribute('title', product[nameGroups]);
-            }
+    cardNode.setAttribute('data-card-id', String(product.id));
+    cardNode.children[0].textContent = product.title;
+    cardNode.children[0].setAttribute('title', product.title);
+    const img = cardNode.children[1] as HTMLImageElement;
+    //img.src = product.thumbnail;
+    this.setImg(product.thumbnail, img);
+    img.alt = product.title;
+    img.loading = 'lazy';
+    const info = cardNode.children[2].children[0];
+    
+    if (this.showInfo) {
+      for (let i = 0; i < info.children.length; i += 1) {
+        const span = info.children[i].children[1] as HTMLSpanElement;
+        const nameGroups = span.dataset.nameGroup;
+        if (nameGroups !== undefined) {
+          span.textContent = product[nameGroups] + ((nameGroups === 'discountPercentage') ? '%' : '');
+          if (nameGroups === 'brand') {
+            span.setAttribute('title', product[nameGroups]);
           }
         }
       }
-      
-      const childIndex = (this.showInfo) ? 1 : 0;
-      cardNode.children[2].children[childIndex].children[0].textContent = `${product.price} $`;
-      nodeParent.append(cardNode);
+    }
+
+    const childIndex = (this.showInfo) ? 1 : 0;
+    cardNode.children[2].children[childIndex].children[0].textContent = `${product.price} $`;
+    nodeParent.append(cardNode);
   }
 
   createCard(): HTMLDivElement {
@@ -153,5 +158,22 @@ export class ProductCard implements ProductCardI {
     span.classList.add(className);
     return span;
   }
+
+  private async addListeners(): Promise<void> {
+    const nodeParent = getElement(this.parentClass);
+    nodeParent.addEventListener('click', (event) => {
+      const target = event.target;
+      if (! (target instanceof HTMLElement) ) return;
+      const productCard = target.closest(".product-card");
+      if (! (productCard instanceof HTMLElement) ) return;
+      //window.location.hash = `/product-details/${productCard.dataset.cardId}`;
+      //window.location.search = '';
+      window.history.pushState({}, '', `/product-details/${productCard.dataset.cardId}`)
+      //window.location.hash = `/product-details/${productCard.dataset.cardId}`;
+      //handlerLocation();
+      Route.handlerLocation();
+    })
+  }
+
 }
 

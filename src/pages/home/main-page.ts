@@ -4,6 +4,7 @@ import { SortBar } from '../../conponents/sort-bar/SortBar';
 import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
 import { CreateNodeI, getElement } from '../../conponents/general/general';
+import { ProducDetails } from '../product-details/product-details-page';
 
 export class MainPage {
   groupCategory: FilterGroup;
@@ -12,6 +13,7 @@ export class MainPage {
   sliderStock: FilterGroupSlider;
   sortBar: SortBar;
   productCard: ProductCard;
+  //producDetails: ProducDetails;
   constructor() {
     this.groupCategory = new FilterGroup('.filters-wrapper__checkbox', FildeGroup.Category, 'filter-category');
     this.groupBrand = new FilterGroup('.filters-wrapper__checkbox', FildeGroup.Brand, 'filter-brand');
@@ -19,11 +21,14 @@ export class MainPage {
     this.sliderStock = new FilterGroupSlider('.filters-wrapper__slider', FildeGroup.Stock);
     this.sortBar = new SortBar('.products');
     this.productCard = new ProductCard('.products-card-wrapper', './assets/basket.svg');
+
+    //this.producDetails = new ProducDetails('.body-container', 10);
   }
 
   draw() {
     QueryParameters.check();
     FilteredProducts.filter();
+    //this.producDetails.draw();
     this.createPageBasis();
     this.groupCategory.draw();
     this.groupBrand.draw();
@@ -81,7 +86,7 @@ export class MainPage {
     const btnCopy = document.querySelector('.filter-btn__copy');
     if (btnCopy instanceof HTMLButtonElement) {
       btnCopy.addEventListener('click', () => {
-        var copyInput = document.createElement('input'),
+        const copyInput = document.createElement('input'),
         text = window.location.href;
         document.body.appendChild(copyInput);
         copyInput.value = text;

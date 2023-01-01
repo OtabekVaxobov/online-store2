@@ -27,7 +27,7 @@ export class FilterGroup implements FilterGroupI {
   constructor(parentClass: string, groupName: GroupProperties, additionalClass?: string) {
     this.parentClass = parentClass;
     this.groupName = groupName;
-    this.additionalClass = additionalClass || '';
+    this.additionalClass = (additionalClass !== undefined) ? additionalClass : '';
   }
 
   draw() {
@@ -76,17 +76,18 @@ export class FilterGroup implements FilterGroupI {
     const group: {[key: string]: number} = {};
 
     for (let i = 0; i < productData.products.length; i += 1) {
-      let curValue = productData.products[i];
-      let groupName = curValue[this.groupName.name];
-      group[groupName] = group[groupName] || 0;
+      const curValue = productData.products[i];
+      const groupName = curValue[this.groupName.name];
+
+      group[groupName] = (group[groupName] === undefined) ? 0 : group[groupName];
       group[groupName] += 1;
     }
 
     const groupFiltered: {[key: string]: number} = {};
     for (let i = 0; i < FilteredProducts.result.length; i += 1) {
-      let curValue = FilteredProducts.result[i];
-      let groupName = curValue[this.groupName.name];
-      groupFiltered[groupName] = groupFiltered[groupName] || 0;
+      const curValue = FilteredProducts.result[i];
+      const groupName = curValue[this.groupName.name];
+      groupFiltered[groupName] = (groupFiltered[groupName] === undefined) ? 0 : groupFiltered[groupName];
       groupFiltered[groupName] += 1;
     }
 
@@ -97,9 +98,11 @@ export class FilterGroup implements FilterGroupI {
       const input = checkbox.children[0].children[1];
       if (input instanceof HTMLInputElement) {
         input.setAttribute('data-group-name', key);
-        if (parameters?.has(key)) input.checked = true;
+        if (parameters) {
+          if (parameters.has(key)) input.checked = true;
+        }
       }
-      const available = groupFiltered[key] || 0;
+      const available = (groupFiltered[key] === undefined) ? 0 : groupFiltered[key];
       checkbox.children[1].textContent = `${available}/${group[key]}`;
       if (available === 0) {
         checkbox.classList.add('checkbox-item__empty');
@@ -108,7 +111,7 @@ export class FilterGroup implements FilterGroupI {
     }
 
     checkboxes.addEventListener('change', (event) => {
-      let target = event.target;
+      const target = event.target;
       if (target instanceof HTMLInputElement && target.dataset.groupName !== undefined) {
         if (target.checked) {
           QueryParameters.add(this.groupName.name, target.dataset.groupName, true);

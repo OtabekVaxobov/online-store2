@@ -76,6 +76,7 @@ export class QueryParameters {
   }
 
   static rest() {
+    window.location.hash = '';
     window.location.search = '';
   }
 
@@ -96,6 +97,7 @@ export class FilteredProducts {
 
   static filter() {
     const parameters = QueryParameters.getAllParemeters();
+    this.result = [];
     this.minPrice = productData.products[0].price;
     this.minStock = productData.products[0].stock;
     const curFilter = this.LastFilter;
