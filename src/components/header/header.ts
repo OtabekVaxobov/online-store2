@@ -1,29 +1,28 @@
-// const HeaderComponent = (basket: HTMLElement | null): any => {
-//     if( basket === null)  throw new Error("err");
-const HeaderComponent = (cards: NodeList): any => {
-        if( cards === null)  throw new Error("err");
-        
-    let update = 0;
-    // let count = document.querySelectorAll('.product-card').forEach((text) => {
-    //     // var result = document.getElementsByClassName("result")[0]; 
-    //     console.log(text)    
-    //     //    result.innerHTML += text.innerText + ' ';
-    // })
-let count = document.getElementById('basket-count-span') as HTMLElement
-    cards.forEach(card => {
-        // update += 1;
-        card.addEventListener('click', (event) =>{
-        // count.innerHTML = update.toString();
-        console.log("1", event);
-        // card.setAttribute('style', 'background-color: yellow;');
-      });
-    });
-//  basket.addEventListener('click' , () =>{
-//     update += 1;
-//     // count.innerHTML = update.toString();
-//     console.log(update)
-//  });
-}
-
+type html = HTMLElement;
+const HeaderComponent = (): HTMLElement => {
+  const header: html = document.createElement('header');
+  const main = document.body.querySelector('.main-container') as html;
+  const sp2 = document.querySelector('.main') as html;
+  main.insertBefore(header, sp2);
+  header.innerHTML = `<div class="page-header _main-container">
+      <section class="header _container">
+        <div id="basket">
+          <img class="basket-img" src="./assets/basket.svg" />
+          <div class="basket-count">
+            Quantity:<span id="basket-count-span">0</span>
+          </div>
+        </div>
+      </section>
+    </div>`;
+  let count = 0;
+  const count_span = document.getElementById(
+    'basket-count-span'
+  ) as HTMLElement;
+  document.getElementById('basket')?.addEventListener('click', () => {
+    count++;
+    count_span.innerHTML = count.toString();
+  });
+  return header;
+};
 
 export default HeaderComponent;
