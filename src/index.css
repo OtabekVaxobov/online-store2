@@ -1,3 +1,4 @@
 @import url('./style/global.css');
 @import url('./pages/home/_main.css');
 @import url('./pages//product-details/_product-details.css');
+@import url('./pages/page-404/page-404.css');

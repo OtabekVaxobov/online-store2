@@ -1,5 +1,6 @@
 import { CreateNodeI, getElement } from '../../conponents/general/general';
 import { DataI, productData } from '../../products/productsData';
+import { Routes } from '../../conponents/routes/Routes';
 
 export interface ProducDetailsI extends CreateNodeI {
   productId: number;
@@ -14,7 +15,10 @@ export class ProducDetails implements ProducDetailsI {
   }
 
   draw() {
-    console.dir(window.location)
+    if (this.productId > productData.products.length) {
+      window.location.hash = Routes.Page404;
+      return;
+    }
     window.history.replaceState({}, '', '/' + window.location.hash);
     const product = productData.products.find((el) => el.id === this.productId);
     if (!product) {

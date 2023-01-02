@@ -1,5 +1,6 @@
 import { MainPage } from '../../pages/home/main-page';
 import { ProducDetails } from '../../pages/product-details/product-details-page';
+import { Page404 } from '../../pages/page-404/page-404';
 import { getElement } from '../general/general';
 
 const mainPage = new MainPage();
@@ -29,7 +30,11 @@ export class Route {
       }
       product.draw();
     },
-    '/404': () => {console.log('404 page')},
+    '/404': () => {
+      Route.clear();
+      const page404 = new Page404('.body-container');
+      page404.draw();
+    },
     '/cart': () => {console.log('cart page')},
   };
 

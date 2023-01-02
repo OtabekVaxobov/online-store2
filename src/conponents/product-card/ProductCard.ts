@@ -1,7 +1,7 @@
 import { DataI } from '../../products/productsData';
 import { CreateNodeI, getElement } from '../general/general';
 import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
-import { Routes } from '../routes//Routes';
+import { Routes } from '../routes/Routes';
 import { ProductPages } from './ProductPages';
 
 export interface ProductCardI extends CreateNodeI {
