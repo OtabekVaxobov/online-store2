@@ -3,10 +3,6 @@ import { CreateNodeI, getElement } from '../general/general';
 import { QueryParameters, FilteredProducts } from '../queryParameters/QueryParameters';
 
 type SliderValue = 'stock' | 'price';
-type Range = {
-  max: number;
-  min: number;
-}
 
 interface DualSliderI extends CreateNodeI {
   readonly sliderValue: SliderValue;
@@ -39,7 +35,6 @@ export class DualSlider implements DualSliderI {
     const multiRange = document.createElement('div')
     multiRange.classList.add('multi-range');
 
-    //const RangeSlider = this.getMaxMinValue();
     const maxValueStr = String(this.maxValue);
     const minValueStr = String(this.minValue);
     let rangeMin: string;
@@ -77,7 +72,7 @@ export class DualSlider implements DualSliderI {
 
     this.renderTitle(rangeMin, rangeMax);
 
-    upperSlider.addEventListener('input', (event) => {
+    upperSlider.addEventListener('input', () => {
       const lowerVal: number = parseInt(lowerSlider.value);
       const upperVal: number = parseInt(upperSlider.value);
     
@@ -90,17 +85,17 @@ export class DualSlider implements DualSliderI {
       this.renderTitle(lowerSlider.value, upperSlider.value);
     })
 
-    upperSlider.addEventListener('change', (event) => {
+    upperSlider.addEventListener('change', () => {
       QueryParameters.add(`${this.sliderValue}_max`, upperSlider.value);
       FilteredProducts.LastFilter = this.sliderValue;
     })
 
-    lowerSlider.addEventListener('change', (event) => {
+    lowerSlider.addEventListener('change', () => {
       QueryParameters.add(`${this.sliderValue}_min`, lowerSlider.value);
       FilteredProducts.LastFilter = this.sliderValue;
     })
 
-    lowerSlider.addEventListener('input', (event) => {
+    lowerSlider.addEventListener('input', () => {
       const lowerVal: number = parseInt(lowerSlider.value);
       const upperVal: number = parseInt(upperSlider.value);
        
@@ -127,26 +122,6 @@ export class DualSlider implements DualSliderI {
       title.textContent = `${minValue} - ${maxValue}`;
     }
   }
-
-  /*private getMaxMinValue(): Range {
-    let parameterMin = QueryParameters.get(`${this.sliderValue}_min`);
-    let minValue: number;
-    if (parameterMin) {
-      minValue =  Number(parameterMin.values().next().value);
-    } else {
-      minValue = this.minValue;
-    }
-
-    let parameterMax = QueryParameters.get(`${this.sliderValue}_max`);
-    let maxValue: number;
-    if (parameterMax) {
-      maxValue =  Number(parameterMax.values().next().value);
-    } else {
-      maxValue = this.maxValue;
-    }
-   
-    return { max: maxValue, min: minValue };
-  }*/
 
   private getMaxValue(): number {
     return productData.products.reduce((acc, cur) => Math.max(acc, cur[this.sliderValue]), 0) ?? 0;

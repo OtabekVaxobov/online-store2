@@ -3,8 +3,7 @@ import { FilterGroupSlider } from '../../conponents/filter-group/FilterGroupSlid
 import { SortBar } from '../../conponents/sort-bar/SortBar';
 import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
-import { CreateNodeI, getElement } from '../../conponents/general/general';
-import { ProducDetails } from '../product-details/product-details-page';
+import { getElement } from '../../conponents/general/general';
 
 export class MainPage {
   groupCategory: FilterGroup;

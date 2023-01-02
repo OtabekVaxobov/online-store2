@@ -14,6 +14,8 @@ export class ProducDetails implements ProducDetailsI {
   }
 
   draw() {
+    console.dir(window.location)
+    window.history.replaceState({}, '', '/' + window.location.hash);
     const product = productData.products.find((el) => el.id === this.productId);
     if (!product) {
       throw new Error('Item not found by id.');

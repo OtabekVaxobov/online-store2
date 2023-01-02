@@ -1,8 +1,7 @@
-import { DataI, productData } from '../../products/productsData';
+import { DataI } from '../../products/productsData';
 import { CreateNodeI, getElement } from '../general/general';
 import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
-//import { handlerLocation } from '../../../src/index';
-import { Route } from '../routes//Routes';
+import { Routes } from '../routes//Routes';
 
 export interface ProductCardI extends CreateNodeI {
   pathImgCart: string;
@@ -167,11 +166,12 @@ export class ProductCard implements ProductCardI {
       const productCard = target.closest(".product-card");
       if (! (productCard instanceof HTMLElement) ) return;
       //window.location.hash = `/product-details/${productCard.dataset.cardId}`;
-      //window.location.search = '';
-      window.history.pushState({}, '', `/product-details/${productCard.dataset.cardId}`)
+      //window.location.search = ''
+      //window.history.pushState({}, '', `/product-details/${productCard.dataset.cardId}`)
       //window.location.hash = `/product-details/${productCard.dataset.cardId}`;
+      window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
       //handlerLocation();
-      Route.handlerLocation();
+      //Route.handlerLocation();
     })
   }
 
