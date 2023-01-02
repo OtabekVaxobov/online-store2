@@ -2,6 +2,7 @@ import { DataI } from '../../products/productsData';
 import { CreateNodeI, getElement } from '../general/general';
 import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
 import { Routes } from '../routes//Routes';
+import { ProductPages } from './ProductPages';
 
 export interface ProductCardI extends CreateNodeI {
   pathImgCart: string;
@@ -20,6 +21,7 @@ export class ProductCard implements ProductCardI {
 
   draw(): void {
     const nodeParent = getElement(this.parentClass);
+    this.drawPages();
 
     if (FilteredProducts.result.length === 0) {
       const title = document.createElement('div');
@@ -34,14 +36,56 @@ export class ProductCard implements ProductCardI {
       this.showInfo = param.values().next().value === 'true';
     }
 
-    const card = this.createCard();
-    FilteredProducts.result.forEach(product => {
-      setTimeout(() => {
-        this.renderCard(nodeParent, card, product);
-      }, 0);
-    })
-
+    this.drawProductCards();
     this.addListeners();
+  }
+
+  private drawPages(): void {
+    if (FilteredProducts.result.length <= ProductPages.maxProductsPerPage) return;
+    const nodeParent = getElement(this.parentClass);
+    const pages = document.createElement('div');
+    pages.classList.add('products-pages');
+    nodeParent.before(pages);
+    const numberPages = Math.ceil(FilteredProducts.result.length / ProductPages.maxProductsPerPage);
+    for (let i = 1; i <= numberPages; i += 1) {
+      const page = document.createElement('div');
+      page.classList.add('products-pages__item');
+      if (i === ProductPages.currentProductsPage) {
+        page.classList.add('products-pages__item-activ');
+      }
+      page.setAttribute('data-page-number', String(i));
+      page.textContent = String(i);
+      pages.append(page);
+    }
+
+    pages.addEventListener('click', (e) => {
+      const target = e.target;
+      if ( !(target instanceof HTMLElement) ) return;
+      const productsPage = target.closest(".products-pages__item");
+      if (! (productsPage instanceof HTMLElement) ) return;
+      const pageNumber = productsPage.dataset.pageNumber;
+      if (pageNumber === undefined) return;
+      ProductPages.currentProductsPage = Number(pageNumber);
+      ProductPages.renderPages();
+      this.drawProductCards();
+    })
+  }
+
+  private drawProductCards(): void {
+    const card = this.createCard();
+    const nodeParent = getElement(this.parentClass);
+    const productsTo = Math.min(ProductPages.maxProductsPerPage * ProductPages.currentProductsPage, FilteredProducts.result.length);
+    const productsFrom = ProductPages.maxProductsPerPage * (ProductPages.currentProductsPage - 1);
+    while (nodeParent.firstChild) {
+      if (nodeParent.lastChild) {
+        nodeParent.removeChild(nodeParent.lastChild);
+      }
+    }
+    for (let i = productsFrom; i < productsTo; i += 1) {
+      setTimeout(() => {
+        this.renderCard(nodeParent, card, FilteredProducts.result[i]);
+      }, 0);
+    }
   }
 
   private async setImg(url: string, img: HTMLImageElement) {
@@ -165,15 +209,8 @@ export class ProductCard implements ProductCardI {
       if (! (target instanceof HTMLElement) ) return;
       const productCard = target.closest(".product-card");
       if (! (productCard instanceof HTMLElement) ) return;
-      //window.location.hash = `/product-details/${productCard.dataset.cardId}`;
-      //window.location.search = ''
-      //window.history.pushState({}, '', `/product-details/${productCard.dataset.cardId}`)
-      //window.location.hash = `/product-details/${productCard.dataset.cardId}`;
       window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
-      //handlerLocation();
-      //Route.handlerLocation();
     })
   }
 
 }
-

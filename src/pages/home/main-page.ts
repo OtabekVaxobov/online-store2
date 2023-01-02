@@ -12,7 +12,6 @@ export class MainPage {
   sliderStock: FilterGroupSlider;
   sortBar: SortBar;
   productCard: ProductCard;
-  //producDetails: ProducDetails;
   constructor() {
     this.groupCategory = new FilterGroup('.filters-wrapper__checkbox', FildeGroup.Category, 'filter-category');
     this.groupBrand = new FilterGroup('.filters-wrapper__checkbox', FildeGroup.Brand, 'filter-brand');
@@ -20,14 +19,11 @@ export class MainPage {
     this.sliderStock = new FilterGroupSlider('.filters-wrapper__slider', FildeGroup.Stock);
     this.sortBar = new SortBar('.products');
     this.productCard = new ProductCard('.products-card-wrapper', './assets/basket.svg');
-
-    //this.producDetails = new ProducDetails('.body-container', 10);
   }
 
   draw() {
     QueryParameters.check();
     FilteredProducts.filter();
-    //this.producDetails.draw();
     this.createPageBasis();
     this.groupCategory.draw();
     this.groupBrand.draw();

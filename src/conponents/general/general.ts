@@ -10,3 +10,13 @@ export function getElement(selector: string, parent: Element | Document = docume
   }
   return element;
 }
+
+export type AdditionalSettings = {
+  lastFilter: string,
+  pages: ProductsPage,
+}
+
+export type ProductsPage = {
+  previousProductsPage: number,
+  currentProductsPage: number,
+}

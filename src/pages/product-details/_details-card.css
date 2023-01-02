@@ -52,6 +52,7 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.25s;
+  border: 1px solid var(--main-border-color);
 }
 
 .current-img-wrapper {

@@ -2,7 +2,7 @@ import './index.html';
 import './index.css';
 
 import { Route } from '../src/conponents/routes/Routes';
-
+//localStorage.clear()
 Route.start();
 
 /*import { MainPage } from './pages/home/main-page';

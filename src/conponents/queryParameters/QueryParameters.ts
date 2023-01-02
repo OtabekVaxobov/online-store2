@@ -1,4 +1,5 @@
 import { productData, DataI } from '../../products/productsData';
+import { AdditionalSettings } from '../general/general';
 
 type QueryProperty = {
   big: string;
@@ -11,11 +12,6 @@ type QueryProperty = {
   stock_max?: string;
   stock_min?: string;
 }
-
-type AdditionalSettings = {
-  lastFilter: string;
-}
-
 type StringNumber = string | number;
 
 export class QueryParameters {
@@ -193,7 +189,7 @@ export class FilteredProducts {
       objSettings = JSON.parse(settings);
       objSettings.lastFilter = value;
     } else {
-      objSettings = { lastFilter: value };
+      objSettings = { lastFilter: value, pages: { previousProductsPage: 1, currentProductsPage: 1 } };
     }
     localStorage.setItem('additionalSettings', JSON.stringify(objSettings));
   }
