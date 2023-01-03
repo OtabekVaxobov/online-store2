@@ -4,6 +4,7 @@ import { SortBar } from '../../conponents/sort-bar/SortBar';
 import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
 import { getElement } from '../../conponents/general/general';
+import { Footer } from '../../conponents/footer/footer';
 
 export class MainPage {
   groupCategory: FilterGroup;
@@ -32,6 +33,8 @@ export class MainPage {
     this.sortBar.draw();
     this.productCard.draw();
     this.addListeneres();
+    Footer.parentClass = '';
+    Footer.draw()
   }
 
   private createPageBasis() {
