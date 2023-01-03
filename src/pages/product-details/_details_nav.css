@@ -1,0 +1,30 @@
+.nav-ul {
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0;
+  list-style: none;
+}
+.nav-links__item {
+  margin: 0 5px;
+}
+
+.details-nav {
+  margin: 0 10%;
+  font-weight: 600;
+}
+
+.nav__link:visited {
+  color: black;
+}
+
+.nav__link {
+  text-decoration: none;
+  color: black;
+  cursor: default;
+}
+
+.nav__link_store {
+  cursor: pointer;
+}

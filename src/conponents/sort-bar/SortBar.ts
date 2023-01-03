@@ -53,10 +53,9 @@ export class SortBar implements SortBarI {
     selectBar.addEventListener('change', (event) => {
       const target = event.target;
       if ( !(target instanceof HTMLSelectElement) ) return;
-      const value = target.value.toLowerCase();
       const sortOptionStr = target.options[target.selectedIndex].dataset.sort;
-      if (sortOptionStr) {
-        const sortOption = JSON.parse(sortOptionStr);
+      if (sortOptionStr !== undefined) {
+        const sortOption: SortOption = JSON.parse(sortOptionStr);
         QueryParameters.add('sort', `${sortOption.property}-${sortOption.direction}`);
       }
     })
@@ -152,8 +151,8 @@ export class SortBar implements SortBarI {
     {property: 'rating', direction: 'DESC'}]
     
     const param = QueryParameters.get('sort');
-    let querySort: String = '';
-    if (param) {
+    let querySort = '';
+    if (param !== null) {
       querySort = String(param.values().next().value);
     }
 

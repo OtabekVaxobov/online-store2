@@ -13,6 +13,7 @@ module.exports = {
     "browser": true
   },
   "rules": {
+    "@typescript-eslint/no-explicit-any": ["error", { "ignoreRestArgs": false }],
     "@typescript-eslint/strict-boolean-expressions": [
       2,
       {

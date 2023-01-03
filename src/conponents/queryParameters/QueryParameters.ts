@@ -1,4 +1,5 @@
 import { productData, DataI } from '../../products/productsData';
+import { AdditionalSettings } from '../general/general';
 
 type QueryProperty = {
   big: string;
@@ -11,16 +12,11 @@ type QueryProperty = {
   stock_max?: string;
   stock_min?: string;
 }
-
-type AdditionalSettings = {
-  lastFilter: string;
-}
-
 type StringNumber = string | number;
 
 export class QueryParameters {
 
-  static add(prop: string, value: string, multi:boolean = false): void {
+  static add(prop: string, value: string, multi = false): void {
     const urlParams = new URLSearchParams(document.location.search);
     if (urlParams.has(prop)) {
       const parameters = this.get(prop);
@@ -62,7 +58,7 @@ export class QueryParameters {
   static get(prop: string): Set<string> | null {
     const urlParams = new URLSearchParams(document.location.search);
     const value = urlParams.get(prop);
-    if (!value) return null;
+    if (value === null) return null;
     return new Set(value.split(';'));
   }
 
@@ -76,6 +72,7 @@ export class QueryParameters {
   }
 
   static rest() {
+    window.location.hash = '';
     window.location.search = '';
   }
 
@@ -89,49 +86,50 @@ export class QueryParameters {
 export class FilteredProducts {
   
   static result: DataI[] = [];
-  static minPrice: number = 0;
-  static maxPrice: number = 0;
-  static minStock: number = 0;
-  static maxStock: number = 0;
+  static minPrice = 0;
+  static maxPrice = 0;
+  static minStock = 0;
+  static maxStock = 0;
 
   static filter() {
     const parameters = QueryParameters.getAllParemeters();
+    this.result = [];
     this.minPrice = productData.products[0].price;
     this.minStock = productData.products[0].stock;
     const curFilter = this.LastFilter;
     for (let i = 0; i < productData.products.length; i += 1) {
       const product = productData.products[i];
-      if (parameters.price_min && Number(parameters.price_min) > product.price) {
+      if (parameters.price_min !== undefined && Number(parameters.price_min) > product.price) {
         continue;
       }
 
-      if (parameters.price_max && Number(parameters.price_max) < product.price) {
+      if (parameters.price_max !== undefined && Number(parameters.price_max) < product.price) {
         continue;
       }
 
-      if (parameters.stock_min && Number(parameters.stock_min) > product.stock) {
+      if (parameters.stock_min !== undefined && Number(parameters.stock_min) > product.stock) {
         continue;
       }
 
-      if (parameters.stock_max && Number(parameters.stock_max) < product.stock) {
+      if (parameters.stock_max !== undefined && Number(parameters.stock_max) < product.stock) {
         continue;
       }
 
-      if (parameters.brand) {
+      if (parameters.brand !== undefined) {
         const brands = parameters.brand.split(';');
         if ( brands.findIndex(element => element === product.brand) === -1 ) {
           continue;
         }
       }
 
-      if (parameters.category) {
+      if (parameters.category !== undefined) {
         const categories = parameters.category.split(';');
         if ( categories.findIndex(element => element === product.category) === -1 ) {
           continue;
         }
       }
 
-      if (parameters.search) {
+      if (parameters.search !== undefined) {
         if ( !(this.includesValue(product.title, parameters.search) ||
         this.includesValue(product.description, parameters.search) || 
         this.includesValue(product.price, parameters.search) || 
@@ -149,10 +147,10 @@ export class FilteredProducts {
         this.minStock = product.stock;
       }
 
-      this.minPrice = (parameters.price_min && curFilter === 'price') ? Number(parameters.price_min) : Math.min(this.minPrice, product.price);
-      this.maxPrice = (parameters.price_max && curFilter === 'price') ? Number(parameters.price_max) : Math.max(this.maxPrice, product.price);
-      this.minStock = (parameters.stock_min && curFilter === 'stock') ? Number(parameters.stock_min) : Math.min(this.minStock, product.stock);
-      this.maxStock = (parameters.stock_max && curFilter === 'stock') ? Number(parameters.stock_max) : Math.max(this.maxStock, product.stock);
+      this.minPrice = (parameters.price_min !== undefined && curFilter === 'price') ? Number(parameters.price_min) : Math.min(this.minPrice, product.price);
+      this.maxPrice = (parameters.price_max !== undefined && curFilter === 'price') ? Number(parameters.price_max) : Math.max(this.maxPrice, product.price);
+      this.minStock = (parameters.stock_min !== undefined && curFilter === 'stock') ? Number(parameters.stock_min) : Math.min(this.minStock, product.stock);
+      this.maxStock = (parameters.stock_max !== undefined && curFilter === 'stock') ? Number(parameters.stock_max) : Math.max(this.maxStock, product.stock);
 
       this.result.push(product);
     }
@@ -162,7 +160,7 @@ export class FilteredProducts {
       this.minStock = 0;
     }
 
-    if (parameters.sort) {
+    if (parameters.sort !== undefined) {
       const sortParameters = parameters.sort.split('-');
       const directionASC = sortParameters[1].toString().toLowerCase() === 'asc';
       const groupName = sortParameters[0];
@@ -187,11 +185,11 @@ export class FilteredProducts {
   static set LastFilter(value: string) {
     const settings = localStorage.getItem('additionalSettings');
     let objSettings: AdditionalSettings;
-    if (settings) {
+    if (settings !== null) {
       objSettings = JSON.parse(settings);
       objSettings.lastFilter = value;
     } else {
-      objSettings = { lastFilter: value };
+      objSettings = { lastFilter: value, pages: { previousProductsPage: 1, currentProductsPage: 1 } };
     }
     localStorage.setItem('additionalSettings', JSON.stringify(objSettings));
   }
@@ -199,7 +197,7 @@ export class FilteredProducts {
   static get LastFilter():string {
     const settings = localStorage.getItem('additionalSettings');
     let objSettings: AdditionalSettings;
-    if (settings) {
+    if (settings !== null) {
       objSettings = JSON.parse(settings);
       return objSettings.lastFilter;
     }

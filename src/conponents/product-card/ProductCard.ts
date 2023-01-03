@@ -1,6 +1,8 @@
-import { DataI, productData } from '../../products/productsData';
+import { DataI } from '../../products/productsData';
 import { CreateNodeI, getElement } from '../general/general';
 import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
+import { Routes } from '../routes/Routes';
+import { ProductPages } from './ProductPages';
 
 export interface ProductCardI extends CreateNodeI {
   pathImgCart: string;
@@ -19,6 +21,7 @@ export class ProductCard implements ProductCardI {
 
   draw(): void {
     const nodeParent = getElement(this.parentClass);
+    this.drawPages();
 
     if (FilteredProducts.result.length === 0) {
       const title = document.createElement('div');
@@ -33,23 +36,67 @@ export class ProductCard implements ProductCardI {
       this.showInfo = param.values().next().value === 'true';
     }
 
-    const card = this.createCard();
-    FilteredProducts.result.forEach(product => {
-      setTimeout(() => {
-        this.renderCard(nodeParent, card, product);
-      }, 0);
+    this.drawProductCards();
+    this.addListeners();
+  }
+
+  private drawPages(): void {
+    if (FilteredProducts.result.length <= ProductPages.maxProductsPerPage) return;
+    const nodeParent = getElement(this.parentClass);
+    const pages = document.createElement('div');
+    pages.classList.add('products-pages');
+    nodeParent.before(pages);
+    const numberPages = Math.ceil(FilteredProducts.result.length / ProductPages.maxProductsPerPage);
+    for (let i = 1; i <= numberPages; i += 1) {
+      const page = document.createElement('div');
+      page.classList.add('products-pages__item');
+      if (i === ProductPages.currentProductsPage) {
+        page.classList.add('products-pages__item-activ');
+      }
+      page.setAttribute('data-page-number', String(i));
+      page.textContent = String(i);
+      pages.append(page);
+    }
+
+    pages.addEventListener('click', (e) => {
+      const target = e.target;
+      if ( !(target instanceof HTMLElement) ) return;
+      const productsPage = target.closest(".products-pages__item");
+      if (! (productsPage instanceof HTMLElement) ) return;
+      const pageNumber = productsPage.dataset.pageNumber;
+      if (pageNumber === undefined) return;
+      ProductPages.currentProductsPage = Number(pageNumber);
+      ProductPages.renderPages();
+      this.drawProductCards();
     })
+  }
+
+  private drawProductCards(): void {
+    const card = this.createCard();
+    const nodeParent = getElement(this.parentClass);
+    const productsTo = Math.min(ProductPages.maxProductsPerPage * ProductPages.currentProductsPage, FilteredProducts.result.length);
+    const productsFrom = ProductPages.maxProductsPerPage * (ProductPages.currentProductsPage - 1);
+    while (nodeParent.firstChild) {
+      if (nodeParent.lastChild) {
+        nodeParent.removeChild(nodeParent.lastChild);
+      }
+    }
+    for (let i = productsFrom; i < productsTo; i += 1) {
+      setTimeout(() => {
+        this.renderCard(nodeParent, card, FilteredProducts.result[i]);
+      }, 0);
+    }
   }
 
   private async setImg(url: string, img: HTMLImageElement) {
     let response = await fetch(url);
     if (response.ok) {
-      let blob = await response.blob();
+      const blob = await response.blob();
       img.src = URL.createObjectURL(blob);
     } else {
       setTimeout(async () => {
         response = await fetch(url);
-        let blob = await response.blob();
+        const blob = await response.blob();
         img.src = URL.createObjectURL(blob);
       }, 5000);
     }
@@ -57,31 +104,32 @@ export class ProductCard implements ProductCardI {
 
   private renderCard(nodeParent: Element, card: HTMLDivElement, product: DataI) {
     const cardNode = card.cloneNode(true) as HTMLDivElement;
-      cardNode.children[0].textContent = product.title;
-      cardNode.children[0].setAttribute('title', product.title);
-      const img = cardNode.children[1] as HTMLImageElement;
-      //img.src = product.thumbnail;
-      this.setImg(product.thumbnail, img)
-      img.alt = product.title;
-      img.loading = 'lazy';
-      const info = cardNode.children[2].children[0];
-      
-      if (this.showInfo) {
-        for (let i = 0; i < info.children.length; i += 1) {
-          let span = info.children[i].children[1] as HTMLSpanElement;
-          let nameGroups = span.dataset.nameGroup;
-          if (nameGroups !== undefined) {
-            span.textContent = product[nameGroups] + ((nameGroups === 'discountPercentage') ? '%' : '');
-            if (nameGroups === 'brand') {
-              span.setAttribute('title', product[nameGroups]);
-            }
+    cardNode.setAttribute('data-card-id', String(product.id));
+    cardNode.children[0].textContent = product.title;
+    cardNode.children[0].setAttribute('title', product.title);
+    const img = cardNode.children[1] as HTMLImageElement;
+    //img.src = product.thumbnail;
+    this.setImg(product.thumbnail, img);
+    img.alt = product.title;
+    img.loading = 'lazy';
+    const info = cardNode.children[2].children[0];
+    
+    if (this.showInfo) {
+      for (let i = 0; i < info.children.length; i += 1) {
+        const span = info.children[i].children[1] as HTMLSpanElement;
+        const nameGroups = span.dataset.nameGroup;
+        if (nameGroups !== undefined) {
+          span.textContent = product[nameGroups] + ((nameGroups === 'discountPercentage') ? '%' : '');
+          if (nameGroups === 'brand') {
+            span.setAttribute('title', product[nameGroups]);
           }
         }
       }
-      
-      const childIndex = (this.showInfo) ? 1 : 0;
-      cardNode.children[2].children[childIndex].children[0].textContent = `${product.price} $`;
-      nodeParent.append(cardNode);
+    }
+
+    const childIndex = (this.showInfo) ? 1 : 0;
+    cardNode.children[2].children[childIndex].children[0].textContent = `${product.price} $`;
+    nodeParent.append(cardNode);
   }
 
   createCard(): HTMLDivElement {
@@ -153,5 +201,16 @@ export class ProductCard implements ProductCardI {
     span.classList.add(className);
     return span;
   }
-}
 
+  private async addListeners(): Promise<void> {
+    const nodeParent = getElement(this.parentClass);
+    nodeParent.addEventListener('click', (event) => {
+      const target = event.target;
+      if (! (target instanceof HTMLElement) ) return;
+      const productCard = target.closest(".product-card");
+      if (! (productCard instanceof HTMLElement) ) return;
+      window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
+    })
+  }
+
+}

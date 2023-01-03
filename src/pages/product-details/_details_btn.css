@@ -1,0 +1,17 @@
+.card-btns-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-btns-wrapper * {
+  margin-bottom: 20px;
+}
+
+.details-card-btns {
+  width: 20%;
+}
+
+.details-card__btn-cart:hover,
+.details-card__btn-buy:hover {
+  scale: 1.05;
+}

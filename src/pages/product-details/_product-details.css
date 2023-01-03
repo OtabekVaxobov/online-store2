@@ -1,20 +1,4 @@
-.nav-ul {
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  
-}
-
-.nav__link:visited {
-  color: black;
-}
-
-.nav__link {
-  text-decoration: none;
-  color: black;
-  cursor: default;
-}
-
-.nav__link_store {
-  cursor: pointer;
-}
+@import url('./_details_btn.css');
+@import url('./_details-card.css');
+@import url('./_details_nav.css');
+@import url('./_details-media-query.css');
