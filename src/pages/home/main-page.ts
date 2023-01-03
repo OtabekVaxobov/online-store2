@@ -9,7 +9,7 @@ import {
   QueryParameters,
   FilteredProducts,
 } from '../../components/queryParameters/QueryParameters';
-import HeaderComponent from '../../components/header/header';
+import HeaderComponent, { Quantity } from '../../components/header/header';
 export class MainPage {
   groupCategory: FilterGroup;
   groupBrand: FilterGroup;
@@ -81,5 +81,6 @@ export class MainPage {
         QueryParameters.rest();
       });
     }
+    Quantity();
   }
 }
