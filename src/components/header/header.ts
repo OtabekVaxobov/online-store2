@@ -2,15 +2,19 @@ type html = HTMLElement;
 interface Ilocal {
   cost: number;
   count: number;
+  html: [];
+  text: Array<string>;
 }
+
 const store = localStorage;
 const LocalStore: Ilocal = {
   cost: 0,
   count: 0,
+  html: [],
+  text: [],
 };
 
 const HeaderComponent = (): html => {
-  console.log(LocalStore);
   const header: html = document.createElement('header');
   const main = document.body.querySelector('.main-container') as html;
   const sp2 = document.querySelector('.main') as html;
@@ -36,7 +40,7 @@ const HeaderComponent = (): html => {
   return header;
 };
 
-export const Quantity = (): any => {
+export const Quantity = () => {
   const quant = document.getElementById('basket-count-span') as html;
   const cost = document.getElementById('cost-span') as html;
   const fan = () => {
@@ -46,8 +50,12 @@ export const Quantity = (): any => {
         ?.addEventListener('click', () => {
           LocalStore.cost = 0;
           LocalStore.count = 0;
+          LocalStore.html = [];
+          LocalStore.text = [];
           window.localStorage.setItem('cost', LocalStore.cost.toString());
           window.localStorage.setItem('count', LocalStore.count.toString());
+          window.localStorage.setItem('html', LocalStore.html.toString());
+          window.localStorage.setItem('text', LocalStore.text.toString());
         });
       console.log('fan');
       const btn = document.querySelectorAll(
@@ -56,11 +64,16 @@ export const Quantity = (): any => {
       btn.forEach((it) =>
         it.addEventListener('click', (e: any) => {
           const clicked_price =
-            e.target.parentElement.parentElement.innerText.slice(0, length - 2);
+            e.target?.parentElement.parentElement.innerText.slice(0, length - 2);
+            // LocalStore.html.push((e.target?.parentElement.parentElement.parentElement.innerHTML))
+            LocalStore.text.push(e.target?.parentElement.parentElement.parentElement.innerText)
+            console.log(LocalStore.text)
           LocalStore.cost += parseInt(clicked_price);
           LocalStore.count++;
-          cost.innerText = LocalStore.cost.toString();
-          quant.innerText = LocalStore.count.toString();
+          cost.innerText = localStorage.cost.toString();
+          quant.innerText = localStorage.count.toString();
+          store.setItem('html', JSON.stringify(LocalStore.html));
+          store.setItem('text', LocalStore.text.toString());
           store.setItem('count', LocalStore.count.toString());
           store.setItem('cost', LocalStore.cost.toString());
         })
