@@ -2,8 +2,8 @@ type html = HTMLElement;
 interface Ilocal {
   cost: number;
   count: number;
-  html: [];
-  text: Array<string>;
+  html: string[];
+  text: string[];
 }
 
 const store = localStorage;
@@ -39,7 +39,10 @@ const HeaderComponent = (): html => {
     `;
   return header;
 };
-
+function Add (clicked_price: string){
+  LocalStore.cost += parseInt(clicked_price);
+  LocalStore.count++;
+}
 export const Quantity = () => {
   const quant = document.getElementById('basket-count-span') as html;
   const cost = document.getElementById('cost-span') as html;
@@ -52,10 +55,10 @@ export const Quantity = () => {
           LocalStore.count = 0;
           LocalStore.html = [];
           LocalStore.text = [];
-          window.localStorage.setItem('cost', LocalStore.cost.toString());
-          window.localStorage.setItem('count', LocalStore.count.toString());
-          window.localStorage.setItem('html', LocalStore.html.toString());
-          window.localStorage.setItem('text', LocalStore.text.toString());
+          store.setItem('cost', LocalStore.cost.toString());
+          store.setItem('count', LocalStore.count.toString());
+          store.setItem('html', LocalStore.html.toString());
+          store.setItem('text', LocalStore.text.toString());
         });
       console.log('fan');
       const btn = document.querySelectorAll(
@@ -65,15 +68,14 @@ export const Quantity = () => {
         it.addEventListener('click', (e: any) => {
           const clicked_price =
             e.target?.parentElement.parentElement.innerText.slice(0, length - 2);
-            // LocalStore.html.push((e.target?.parentElement.parentElement.parentElement.innerHTML))
             LocalStore.text.push(e.target?.parentElement.parentElement.parentElement.innerText)
-            console.log(LocalStore.text)
-          LocalStore.cost += parseInt(clicked_price);
-          LocalStore.count++;
-          cost.innerText = localStorage.cost.toString();
-          quant.innerText = localStorage.count.toString();
+            LocalStore.html.push(e.target?.parentElement.parentElement.parentElement.innerHTML)
+            console.log(LocalStore.html)
+            Add(clicked_price);
+          cost.innerText = store.cost.toString();
+          quant.innerText = store.count.toString();
           store.setItem('html', JSON.stringify(LocalStore.html));
-          store.setItem('text', LocalStore.text.toString());
+          store.setItem('text', JSON.stringify(LocalStore.text));
           store.setItem('count', LocalStore.count.toString());
           store.setItem('cost', LocalStore.cost.toString());
         })
@@ -83,14 +85,3 @@ export const Quantity = () => {
   fan();
 };
 export default HeaderComponent;
-// var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
-
-// var newItem = {
-//     'product-name': itemContainer.find('h2.product-name a').text(),
-//     'product-image': itemContainer.find('div.product-image img').attr('src'),
-//     'product-price': itemContainer.find('span.product-price').text()
-// };
-
-// oldItems.push(newItem);
-
-// localStorage.setItem('itemsArray', JSON.stringify(oldItems));
