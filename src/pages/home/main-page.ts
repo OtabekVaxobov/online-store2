@@ -9,7 +9,7 @@ import {
   QueryParameters,
   FilteredProducts,
 } from '../../components/queryParameters/QueryParameters';
-import HeaderComponent, { Quantity } from '../../components/header/header';
+import HeaderComponent, { Quantity, Rest_button } from '../../components/header/header';
 export class MainPage {
   groupCategory: FilterGroup;
   groupBrand: FilterGroup;
@@ -79,6 +79,7 @@ export class MainPage {
     if (btnRest instanceof HTMLButtonElement) {
       btnRest.addEventListener('click', () => {
         QueryParameters.rest();
+        Rest_button();
       });
     }
     Quantity();

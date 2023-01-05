@@ -19,6 +19,7 @@ const HeaderComponent = (): html => {
   const main = document.body.querySelector('.main-container') as html;
   const sp2 = document.querySelector('.main') as html;
   main.insertBefore(header, sp2);
+  
   header.innerHTML = `
   <div class="header _main-container">
       <section class="header_container">
@@ -40,26 +41,14 @@ const HeaderComponent = (): html => {
   return header;
 };
 function Add (clicked_price: string){
-  LocalStore.cost += parseInt(clicked_price);
+  LocalStore.cost += JSON.parse(clicked_price);
   LocalStore.count++;
 }
 export const Quantity = () => {
   const quant = document.getElementById('basket-count-span') as html;
   const cost = document.getElementById('cost-span') as html;
-  const fan = () => {
+  
     window.onload = () => {
-      document
-        .querySelector('.filter-btn__rest')
-        ?.addEventListener('click', () => {
-          LocalStore.cost = 0;
-          LocalStore.count = 0;
-          LocalStore.html = [];
-          LocalStore.text = [];
-          store.setItem('cost', LocalStore.cost.toString());
-          store.setItem('count', LocalStore.count.toString());
-          store.setItem('html', LocalStore.html.toString());
-          store.setItem('text', LocalStore.text.toString());
-        });
       console.log('fan');
       const btn = document.querySelectorAll(
         '.product-card__btn-cart'
@@ -70,18 +59,28 @@ export const Quantity = () => {
             e.target?.parentElement.parentElement.innerText.slice(0, length - 2);
             LocalStore.text.push(e.target?.parentElement.parentElement.parentElement.innerText)
             LocalStore.html.push(e.target?.parentElement.parentElement.parentElement.innerHTML)
-            console.log(LocalStore.html)
             Add(clicked_price);
-          cost.innerText = store.cost.toString();
-          quant.innerText = store.count.toString();
+          console.log(store.cost, LocalStore.cost)
           store.setItem('html', JSON.stringify(LocalStore.html));
           store.setItem('text', JSON.stringify(LocalStore.text));
-          store.setItem('count', LocalStore.count.toString());
-          store.setItem('cost', LocalStore.cost.toString());
+          store.setItem('count', JSON.stringify(LocalStore.count));
+          store.setItem('cost', JSON.stringify(LocalStore.cost));
+          cost.innerText = JSON.parse(store.cost);
+          quant.innerText = JSON.parse(store.count);
         })
       );
     };
-  };
-  fan();
 };
+
+export function Rest_button (){
+    LocalStore.cost = 0;
+    LocalStore.count = 0;
+    LocalStore.html = [];
+    LocalStore.text = [];
+    store.setItem('cost', LocalStore.cost.toString());
+    store.setItem('count', LocalStore.count.toString());
+    store.setItem('html', LocalStore.html.toString());
+    store.setItem('text', LocalStore.text.toString());
+}
+
 export default HeaderComponent;
