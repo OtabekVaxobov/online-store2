@@ -5,6 +5,7 @@ import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
 import { getElement } from '../../conponents/general/general';
 import { Footer } from '../../conponents/footer/footer';
+import HeaderComponent from '../../conponents/header/Header';
 
 export class MainPage {
   groupCategory: FilterGroup;
@@ -22,7 +23,7 @@ export class MainPage {
     this.productCard = new ProductCard('.products-card-wrapper', './assets/basket.svg');
   }
 
-  draw() {
+  async draw() {
     QueryParameters.check();
     FilteredProducts.filter();
     this.createPageBasis();
@@ -35,6 +36,7 @@ export class MainPage {
     this.addListeneres();
     Footer.parentClass = '';
     Footer.draw()
+    
   }
 
   private createPageBasis() {
