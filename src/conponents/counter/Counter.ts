@@ -22,7 +22,6 @@ function Add(clicked_price: string) {
   const quant = document.getElementById('basket-count-span') as html;
   const cost = document.getElementById('cost-span') as html;
 
-  // window.onload = () => {
     console.log('fan');
     const btn = document.querySelectorAll(
       '.product-card__btn-cart'
@@ -47,7 +46,6 @@ function Add(clicked_price: string) {
         quant.innerText = JSON.parse(store.count);
       })
     );
-  // };
 };
 
 export function Rest_button() {
