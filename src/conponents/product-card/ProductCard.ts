@@ -204,13 +204,16 @@ export class ProductCard implements ProductCardI {
 
   private async addListeners(): Promise<void> {
     const nodeParent = getElement(this.parentClass);
+    // console.log(nodeParent.classList)
     nodeParent.addEventListener('click', (event) => {
       const target = event.target;
       if (! (target instanceof HTMLElement) ) return;
       const productCard = target.closest(".product-card");
       if (! (productCard instanceof HTMLElement) ) return;
       window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
-    })
+    });
+  //  const buttons = getElement(this.)
+  //  console.log(buttons)
   }
 
 }

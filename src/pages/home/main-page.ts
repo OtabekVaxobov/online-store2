@@ -6,7 +6,6 @@ import { QueryParameters, FilteredProducts } from '../../conponents/queryParamet
 import { getElement } from '../../conponents/general/general';
 import { Footer } from '../../conponents/footer/footer';
 import HeaderComponent from '../../conponents/header/Header';
-
 export class MainPage {
   groupCategory: FilterGroup;
   groupBrand: FilterGroup;
