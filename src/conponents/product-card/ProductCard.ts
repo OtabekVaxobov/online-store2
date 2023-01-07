@@ -149,7 +149,12 @@ export class ProductCard implements ProductCardI {
 
     const btnCart = document.createElement('button');
     btnCart.classList.add('btn_default', 'product-card__btn-cart');
-
+    setTimeout(() => {
+      document.querySelector('.product-card__btn-cart')?.addEventListener("click",(e)=>{
+        e.preventDefault();
+        console.log('clicked')
+      })
+    }, 1000);
     const imgCart = document.createElement('img');
     imgCart.classList.add('product-card__img-cart');
     imgCart.src = this.pathImgCart;
@@ -204,13 +209,16 @@ export class ProductCard implements ProductCardI {
 
   private async addListeners(): Promise<void> {
     const nodeParent = getElement(this.parentClass);
+    // console.log(nodeParent.classList)
     nodeParent.addEventListener('click', (event) => {
       const target = event.target;
       if (! (target instanceof HTMLElement) ) return;
       const productCard = target.closest(".product-card");
       if (! (productCard instanceof HTMLElement) ) return;
       window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
-    })
+    });
+  //  const buttons = getElement(this.)
+  //  console.log(buttons)
   }
 
 }

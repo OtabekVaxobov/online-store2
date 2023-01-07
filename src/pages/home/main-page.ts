@@ -5,7 +5,7 @@ import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
 import { getElement } from '../../conponents/general/general';
 import { Footer } from '../../conponents/footer/footer';
-
+import CounterComponent, { Rest_button } from '../../conponents/counter/Counter';
 export class MainPage {
   groupCategory: FilterGroup;
   groupBrand: FilterGroup;
@@ -22,7 +22,7 @@ export class MainPage {
     this.productCard = new ProductCard('.products-card-wrapper', './assets/basket.svg');
   }
 
-  draw() {
+  async draw() {
     QueryParameters.check();
     FilteredProducts.filter();
     this.createPageBasis();
@@ -35,6 +35,7 @@ export class MainPage {
     this.addListeneres();
     Footer.parentClass = '';
     Footer.draw()
+    
   }
 
   private createPageBasis() {
@@ -103,8 +104,10 @@ export class MainPage {
     if (btnRest instanceof HTMLButtonElement) {
       btnRest.addEventListener('click', () => {
         QueryParameters.rest();
+        Rest_button()
       })
     }
+    CounterComponent()
   }
 }
 

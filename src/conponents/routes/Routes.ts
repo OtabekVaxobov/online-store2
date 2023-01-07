@@ -2,7 +2,7 @@ import { MainPage } from '../../pages/home/main-page';
 import { ProducDetails } from '../../pages/product-details/product-details-page';
 import { Page404 } from '../../pages/page-404/page-404';
 import { getElement } from '../general/general';
-
+import HeaderComponent from '../header/Header'
 const mainPage = new MainPage();
 const product = new ProducDetails('.body-container', 1);
 
@@ -22,6 +22,7 @@ export class Route {
     '/': () => {
       Route.clear();
       mainPage.draw();
+      HeaderComponent();
     },
     '/product-details': (additionParam?: number) => {
       Route.clear();
@@ -29,6 +30,7 @@ export class Route {
         product.productId = additionParam;
       }
       product.draw();
+      HeaderComponent();
     },
     '/404': () => {
       Route.clear();
@@ -82,6 +84,9 @@ export class Route {
     const container = getElement('.body-container');
     while (container.firstChild) {
       container.removeChild(container.firstChild);
+      setTimeout(() => {
+        document.querySelector('header')?.remove()
+      }, 0);
     }
   }
 
