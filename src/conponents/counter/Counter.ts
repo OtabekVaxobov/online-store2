@@ -21,8 +21,8 @@ function Add(clicked_price: string) {
  const CounterComponent = () => {
   const quant = document.getElementById('basket-count-span') as html;
   const cost = document.getElementById('cost-span') as html;
-
-    console.log('fan');
+setTimeout(() => {
+  console.log('fan');
     const btn = document.querySelectorAll(
       '.product-card__btn-cart'
     ) as NodeList;
@@ -46,6 +46,7 @@ function Add(clicked_price: string) {
         quant.innerText = JSON.parse(store.count);
       })
     );
+}, 0);
 };
 
 export function Rest_button() {

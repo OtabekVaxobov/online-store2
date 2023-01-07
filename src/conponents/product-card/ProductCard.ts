@@ -149,7 +149,12 @@ export class ProductCard implements ProductCardI {
 
     const btnCart = document.createElement('button');
     btnCart.classList.add('btn_default', 'product-card__btn-cart');
-
+    setTimeout(() => {
+      document.querySelector('.product-card__btn-cart')?.addEventListener("click",(e)=>{
+        e.preventDefault();
+        console.log('clicked')
+      })
+    }, 1000);
     const imgCart = document.createElement('img');
     imgCart.classList.add('product-card__img-cart');
     imgCart.src = this.pathImgCart;

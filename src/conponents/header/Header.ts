@@ -9,12 +9,12 @@ const HeaderComponent = async (): Promise<void> => {
       <section class="header_container">
       <a href="/" class="header_logo">Alik_Express</a>
       <div class="header_cost">
-      Cost:<span id="cost-span">0</span>$
+      Cost:<span id="cost-span">${localStorage.getItem('cost')}</span>$
       </div>
         <a href="#/cart" id="basket">
           <img class="basket-img" src="./assets/basket.svg" />
           <div class="basket-count">
-            Quantity:<span id="basket-count-span">0</span>
+            Quantity:<span id="basket-count-span">${localStorage.getItem('count')}</span>
           </div>
         </a>
       </section>

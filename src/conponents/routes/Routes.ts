@@ -30,6 +30,7 @@ export class Route {
         product.productId = additionParam;
       }
       product.draw();
+      HeaderComponent();
     },
     '/404': () => {
       Route.clear();
@@ -83,6 +84,9 @@ export class Route {
     const container = getElement('.body-container');
     while (container.firstChild) {
       container.removeChild(container.firstChild);
+      setTimeout(() => {
+        document.querySelector('header')?.remove()
+      }, 0);
     }
   }
 
