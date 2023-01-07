@@ -21,7 +21,6 @@ const LocalStore: Ilocal = {
   LocalStore.count++;
 }*/
  const CounterComponent = () => {
-  console.dir(localStorage)
   setTimeout(() => {
     const quant = document.getElementById('basket-count-span') as html;
     const cost = document.getElementById('cost-span') as html;
@@ -29,7 +28,7 @@ const LocalStore: Ilocal = {
       '.product-card__btn-cart'
     ) as NodeList;
     btn.forEach((it) =>
-      it.addEventListener('click', (e: any) => {
+      it.addEventListener('click', (e) => {
         const target = e.target;
         if ( !(target instanceof HTMLElement) ) return;
         const productsPage = target.closest(".product-card__btn-cart");
