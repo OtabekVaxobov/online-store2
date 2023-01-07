@@ -1,6 +1,8 @@
 import { CreateNodeI, getElement } from '../../conponents/general/general';
 import { DataI, productData } from '../../products/productsData';
 import { Routes } from '../../conponents/routes/Routes';
+import { Cart } from '../../conponents/counter/Cart';
+import { renderHeaderCounter } from '../../conponents/header/Header';
 
 export interface ProducDetailsI extends CreateNodeI {
   productId: number;
@@ -98,7 +100,7 @@ export class ProducDetails implements ProducDetailsI {
     infoCard.classList.add('details-card-info');
     const images = this.createPicturesSection(product);
     const information = this.createInformationSection(product);
-    const buy = this.createBuySection(product.price)
+    const buy = this.createBuySection(product.price, product.id);
     infoCard.append(images);
     infoCard.append(information);
     infoCard.append(buy);
@@ -176,7 +178,7 @@ export class ProducDetails implements ProducDetailsI {
     return infoWrapper;
   }
 
-  private createBuySection(amount: number): HTMLDivElement {
+  private createBuySection(amount: number, productId: number): HTMLDivElement {
     const buy = document.createElement('div');
     buy.classList.add('details-card-btns');
     const bntWrapper = document.createElement('div');
@@ -187,7 +189,12 @@ export class ProducDetails implements ProducDetailsI {
 
     const bntCart = document.createElement('button');
     bntCart.classList.add('details-card__btn-cart', 'btn_default');
-    bntCart.textContent = 'ADD TO CART';
+    if (Cart.contains(productId)) {
+      bntCart.textContent = 'DROP FROM CART';
+      bntCart.classList.add('btn_active');
+    } else {
+      bntCart.textContent = 'ADD TO CART';
+    }
 
     const bntBuy = document.createElement('button');
     bntBuy.classList.add('details-card__btn-buy', 'btn_default');
@@ -211,6 +218,19 @@ export class ProducDetails implements ProducDetailsI {
       if ( !(target instanceof HTMLImageElement) ) return;
       currentImg.src = target.src;
     })
-  }
 
+    const btnCart = await getElement('.details-card__btn-cart');
+    btnCart.addEventListener('click', () => {
+      if (Cart.contains(this.productId)) {
+        Cart.delete(this.productId);
+        btnCart.textContent = 'ADD TO CART';
+        btnCart.classList.remove('btn_active');
+      } else {
+        Cart.add(this.productId);
+        btnCart.classList.add('btn_active');
+        btnCart.textContent = 'DROP FROM CART';
+      }
+      renderHeaderCounter();
+    })
+  }
 }

@@ -104,10 +104,9 @@ export class MainPage {
     if (btnRest instanceof HTMLButtonElement) {
       btnRest.addEventListener('click', () => {
         QueryParameters.rest();
-        Rest_button()
       })
     }
-    CounterComponent()
+    CounterComponent();
   }
 }
 

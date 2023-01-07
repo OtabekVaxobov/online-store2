@@ -3,6 +3,7 @@
 @import url('../../conponents/dual-slider/_dual-slider.css');
 
 .aside-container {
+  padding: 0 5px;
   width: 25%;
   min-width: 200px;
 }

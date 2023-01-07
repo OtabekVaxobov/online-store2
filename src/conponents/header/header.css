@@ -1,14 +1,11 @@
 header {
   margin: 0 auto;
   max-width: 1200px;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
 }
 .basket-img {
-  padding-top: 10px;
-  padding-left: 32px;
-  width: 25px;
-  height: 25px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
 }
 .header {
@@ -16,27 +13,36 @@ header {
   flex-direction: column;
   justify-content: flex-start;
   align-content: space-around;
-  padding-bottom: 20px;
 }
 #basket{
-text-decoration: none;
-margin-right: 15px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  margin-right: 15px;
 }
 .basket-count {
+  position: absolute;
+  top: 21px;
+  left: 12px;
+  display: flex;
+  justify-content: center;
+  width: 25px;
   color: #343e46;
   background: var(--yellow);
   border: none;
-  border-radius: 35px;
+  border-radius: 50%;
   transition: all 0.35s ease;
   cursor: pointer;
 }
 .header_container {
+  margin: 20px 0;
   display: flex;
   justify-content: space-between;
-  align-content: space-between;
+  align-items: flex-end;
 }
 .header_cost {
-  margin-top: 30px;
+  
 }
 .header_logo {
   padding-left: 5px;
@@ -44,6 +50,5 @@ margin-right: 15px;
   font-size: 20px;
   font-weight: 600;
   color: #343e46;
-  margin-top: 30px;
   text-decoration: none;
 }

@@ -20,7 +20,7 @@
   }
 
   .aside-container {
-    width: 100%;
+    width: 98%;
   }
 
   .products {
@@ -58,7 +58,7 @@
   }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 392px) {
   .filters-wrapper__slider,
   .filters-wrapper__checkbox {
     flex-direction: column;
