@@ -5,7 +5,7 @@ import { ProductCard } from '../../conponents/product-card/ProductCard';
 import { QueryParameters, FilteredProducts } from '../../conponents/queryParameters/QueryParameters';
 import { getElement } from '../../conponents/general/general';
 import { Footer } from '../../conponents/footer/footer';
-import CounterComponent, { Rest_button } from '../../conponents/counter/Counter';
+import CounterComponent from '../../conponents/counter/Counter';
 export class MainPage {
   groupCategory: FilterGroup;
   groupBrand: FilterGroup;
@@ -104,10 +104,9 @@ export class MainPage {
     if (btnRest instanceof HTMLButtonElement) {
       btnRest.addEventListener('click', () => {
         QueryParameters.rest();
-        Rest_button()
       })
     }
-    CounterComponent()
+    CounterComponent();
   }
 }
 

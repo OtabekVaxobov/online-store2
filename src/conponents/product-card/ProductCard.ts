@@ -3,6 +3,7 @@ import { CreateNodeI, getElement } from '../general/general';
 import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
 import { Routes } from '../routes/Routes';
 import { ProductPages } from './ProductPages';
+import { Cart } from '../counter/Cart';
 
 export interface ProductCardI extends CreateNodeI {
   pathImgCart: string;
@@ -62,7 +63,7 @@ export class ProductCard implements ProductCardI {
       const target = e.target;
       if ( !(target instanceof HTMLElement) ) return;
       const productsPage = target.closest(".products-pages__item");
-      if (! (productsPage instanceof HTMLElement) ) return;
+      if ( !(productsPage instanceof HTMLElement) ) return;
       const pageNumber = productsPage.dataset.pageNumber;
       if (pageNumber === undefined) return;
       ProductPages.currentProductsPage = Number(pageNumber);
@@ -108,11 +109,14 @@ export class ProductCard implements ProductCardI {
     cardNode.children[0].textContent = product.title;
     cardNode.children[0].setAttribute('title', product.title);
     const img = cardNode.children[1] as HTMLImageElement;
-    //img.src = product.thumbnail;
     this.setImg(product.thumbnail, img);
     img.alt = product.title;
     img.loading = 'lazy';
     const info = cardNode.children[2].children[0];
+    if (Cart.contains(product.id)) {
+      const btnCart = getElement('.product-card__btn-cart', cardNode);
+      btnCart.classList.add('btn_active');
+    }
     
     if (this.showInfo) {
       for (let i = 0; i < info.children.length; i += 1) {
@@ -152,7 +156,6 @@ export class ProductCard implements ProductCardI {
     setTimeout(() => {
       document.querySelector('.product-card__btn-cart')?.addEventListener("click",(e)=>{
         e.preventDefault();
-        console.log('clicked')
       })
     }, 1000);
     const imgCart = document.createElement('img');
@@ -209,16 +212,14 @@ export class ProductCard implements ProductCardI {
 
   private async addListeners(): Promise<void> {
     const nodeParent = getElement(this.parentClass);
-    // console.log(nodeParent.classList)
     nodeParent.addEventListener('click', (event) => {
       const target = event.target;
-      if (! (target instanceof HTMLElement) ) return;
+      if ( !(target instanceof HTMLElement) ) return;
+      if (target.closest(".product-card__btn-cart") !== null) return;
       const productCard = target.closest(".product-card");
       if (! (productCard instanceof HTMLElement) ) return;
       window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
     });
-  //  const buttons = getElement(this.)
-  //  console.log(buttons)
   }
 
 }

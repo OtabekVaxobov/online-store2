@@ -24,4 +24,9 @@
 
 .btn_active {
   background-color: #95dd1a;
+  transition: ease-in-out .3s;
+}
+
+.btn_active:hover {
+  background-color: #eb880f;
 }
