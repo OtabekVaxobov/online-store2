@@ -1,4 +1,4 @@
-type html = HTMLElement;
+export type html = HTMLElement;
 interface Ilocal {
   cost: number;
   count: number;
@@ -6,8 +6,8 @@ interface Ilocal {
   text: string[];
 }
 
-const store = localStorage;
-const LocalStore: Ilocal = {
+export const store = localStorage;
+export const LocalStore: Ilocal = {
   cost: 0,
   count: 0,
   html: [],
@@ -27,16 +27,20 @@ setTimeout(() => {
       '.product-card__btn-cart'
     ) as NodeList;
     btn.forEach((it) =>
-      it.addEventListener('click', (e: any) => {
-        const clicked_price =
-          e.target?.parentElement.parentElement.innerText.slice(0, length - 2);
-        LocalStore.text.push(
-          e.target?.parentElement.parentElement.parentElement.innerText
-        );
-        LocalStore.html.push(
-          e.target?.parentElement.parentElement.parentElement.innerHTML
-        );
-        Add(clicked_price);
+      it.addEventListener('click', (e) => {
+        const target = e.target
+        if( typeof target === null){
+          console.log(target)
+        }
+        // const clicked_price =
+        //   e.target?.parentElement.parentElement.innerText.slice(0, length - 2);
+        // LocalStore.text.push(
+        //   e.target?.parentElement.parentElement.parentElement.innerText
+        // );
+        // LocalStore.html.push(
+        //   e.target?.parentElement.parentElement.parentElement.innerHTML
+        // );
+        // Add(clicked_price);
         console.log(store.cost, LocalStore.cost);
         store.setItem('html', JSON.stringify(LocalStore.html));
         store.setItem('text', JSON.stringify(LocalStore.text));

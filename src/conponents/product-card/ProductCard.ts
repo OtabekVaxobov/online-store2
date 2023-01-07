@@ -1,4 +1,5 @@
 import { DataI } from '../../products/productsData';
+import CounterComponent from '../counter/Counter';
 import { CreateNodeI, getElement } from '../general/general';
 import { FilteredProducts, QueryParameters } from '../queryParameters/QueryParameters';
 import { Routes } from '../routes/Routes';
@@ -11,11 +12,13 @@ export interface ProductCardI extends CreateNodeI {
 export class ProductCard implements ProductCardI {
   readonly parentClass: string;
   readonly pathImgCart: string;
+  readonly pathImgCart2: string;
   showInfo: boolean;
 
-  constructor(parentClass: string, pathImgCart: string) {
+  constructor(parentClass: string, pathImgCart: string, pathImgCart2: string) {
     this.parentClass = parentClass;
     this.pathImgCart = pathImgCart;
+    this.pathImgCart2 = pathImgCart2;
     this.showInfo = true;
   }
 
@@ -149,18 +152,25 @@ export class ProductCard implements ProductCardI {
 
     const btnCart = document.createElement('button');
     btnCart.classList.add('btn_default', 'product-card__btn-cart');
-    setTimeout(() => {
-      document.querySelector('.product-card__btn-cart')?.addEventListener("click",(e)=>{
-        e.preventDefault();
-        console.log('clicked')
-      })
-    }, 1000);
+
     const imgCart = document.createElement('img');
     imgCart.classList.add('product-card__img-cart');
     imgCart.src = this.pathImgCart;
     btnCart.append(imgCart);
     cardBuy.append(btnCart);
-
+    btnCart.id = "add_btn";
+    imgCart.id = "add_btn";
+    //      info button
+    const btnCart2 = document.createElement('button');
+    btnCart2.classList.add('btn_default', 'product-card__btn-cart');
+    const imgCart2 = document.createElement('img');
+    btnCart2.id = "info_btn"
+    imgCart2.id = "info_btn"
+    imgCart2.classList.add('product-card__img-cart');
+    imgCart2.src = this.pathImgCart2;
+    btnCart2.append(imgCart2);
+    cardBuy.append(btnCart2);
+    //
     const infoBuyWrapper = document.createElement('div');
     if (this.showInfo) {
       const productInfo = this.createInfo();
@@ -206,19 +216,21 @@ export class ProductCard implements ProductCardI {
     span.classList.add(className);
     return span;
   }
-
+ 
   private async addListeners(): Promise<void> {
     const nodeParent = getElement(this.parentClass);
-    // console.log(nodeParent.classList)
     nodeParent.addEventListener('click', (event) => {
       const target = event.target;
-      if (! (target instanceof HTMLElement) ) return;
-      const productCard = target.closest(".product-card");
-      if (! (productCard instanceof HTMLElement) ) return;
-      window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
+       if (! (target instanceof HTMLElement) ) return;
+       const productCard = target.closest(".product-card");
+      if( target.id === 'add_btn'){
+        CounterComponent()
+      }
+      if(target.id === 'info_btn'){
+        if (! (productCard instanceof HTMLElement) ) return;
+        window.location.hash = `${Routes.Details}/${productCard.dataset.cardId}`;
+      }
     });
-  //  const buttons = getElement(this.)
-  //  console.log(buttons)
   }
 
 }

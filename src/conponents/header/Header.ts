@@ -1,4 +1,6 @@
-
+setTimeout(() => {
+  
+}, 0);
 const HeaderComponent = async (): Promise<void> => {
   const header: HTMLElement = document.createElement('header');
   const sp2 = document.querySelector('.body-container') as HTMLElement;

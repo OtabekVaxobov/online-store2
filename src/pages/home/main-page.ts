@@ -19,7 +19,7 @@ export class MainPage {
     this.sliderPrice = new FilterGroupSlider('.filters-wrapper__slider', FildeGroup.Price);
     this.sliderStock = new FilterGroupSlider('.filters-wrapper__slider', FildeGroup.Stock);
     this.sortBar = new SortBar('.products');
-    this.productCard = new ProductCard('.products-card-wrapper', './assets/basket.svg');
+    this.productCard = new ProductCard('.products-card-wrapper', './assets/basket.svg', './assets/info.svg');
   }
 
   async draw() {
@@ -82,6 +82,7 @@ export class MainPage {
   }
   
   private addListeneres() {
+    CounterComponent()
     const btnCopy = document.querySelector('.filter-btn__copy');
     if (btnCopy instanceof HTMLButtonElement) {
       btnCopy.addEventListener('click', () => {
@@ -107,7 +108,6 @@ export class MainPage {
         Rest_button()
       })
     }
-    CounterComponent()
   }
 }
 
