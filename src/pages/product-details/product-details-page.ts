@@ -5,6 +5,7 @@ import { Cart } from '../../conponents/counter/Cart';
 import { renderHeaderCounter } from '../../conponents/header/Header';
 import { Buy } from '../../conponents/buy-page/buy-page';
 import { Footer } from '../../conponents/footer/footer';
+import { PATH_NAME } from '../../conponents/routes/Routes';
 
 export interface ProducDetailsI extends CreateNodeI {
   productId: number;
@@ -52,7 +53,7 @@ export class ProducDetails implements ProducDetailsI {
     liStore.classList.add('nav-links__item');
     const linkStore = document.createElement('a');
     linkStore.classList.add('nav__link', 'nav__link_store');
-    linkStore.href = '/';
+    linkStore.href = `${PATH_NAME}`;
     linkStore.textContent = 'Store';
     liStore.append(linkStore);
 
