@@ -25,7 +25,7 @@ export class Footer {
 
     const logoRS = getElement('.logo-rs-school');
     if (logoRS instanceof HTMLImageElement) {
-      logoRS.src = '/assets/rs_school_js.svg';
+      logoRS.src = './assets/rs_school_js.svg';
     }
   }
 }
