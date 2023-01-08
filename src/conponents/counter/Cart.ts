@@ -57,7 +57,7 @@ export class Cart {
   }
 }
 
-function getCart(): StorageCart {
+export function getCart(): StorageCart {
   const cart = localStorage.getItem(CART_NAME_LS);
   let productCart: StorageCart;
   if (cart === null) {
