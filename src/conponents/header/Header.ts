@@ -3,7 +3,7 @@ import { Cart } from '../counter/Cart';
 const HeaderComponent = async (): Promise<void> => {
   const header: HTMLElement = document.createElement('header');
   const sp2 = document.querySelector('.body-container') as HTMLElement;
-   document.body.insertBefore(header, sp2);
+  sp2.prepend(header);
 
   header.innerHTML = `
   <div class="header _main-container">

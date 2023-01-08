@@ -36,6 +36,7 @@ export class Route {
       Route.clear();
       const page404 = new Page404('.body-container');
       page404.draw();
+      HeaderComponent();
     },
     '/cart': () => {console.log('cart page')},
   };
@@ -82,11 +83,9 @@ export class Route {
 
   static clear(): void {
     const container = getElement('.body-container');
+    document.querySelector('header')?.remove();
     while (container.firstChild) {
       container.removeChild(container.firstChild);
-      setTimeout(() => {
-        document.querySelector('header')?.remove()
-      }, 0);
     }
   }
 

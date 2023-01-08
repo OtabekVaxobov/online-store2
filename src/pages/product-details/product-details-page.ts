@@ -3,6 +3,8 @@ import { DataI, productData } from '../../products/productsData';
 import { Routes } from '../../conponents/routes/Routes';
 import { Cart } from '../../conponents/counter/Cart';
 import { renderHeaderCounter } from '../../conponents/header/Header';
+import { Buy } from '../../conponents/buy-page/buy-page';
+import { Footer } from '../../conponents/footer/footer';
 
 export interface ProducDetailsI extends CreateNodeI {
   productId: number;
@@ -26,6 +28,8 @@ export class ProducDetails implements ProducDetailsI {
     if (!product) {
       throw new Error('Item not found by id.');
     }
+    Footer.parentClass = '';
+    Footer.draw();
     const parent = getElement(this.parentClass);
     const productWrapper = document.createElement('div');
     productWrapper.classList.add('product-details-wrapper');
@@ -232,5 +236,10 @@ export class ProducDetails implements ProducDetailsI {
       }
       renderHeaderCounter();
     })
+
+    const btnBuy = await getElement('.details-card__btn-buy');
+    btnBuy.addEventListener('click', () => {
+      Buy.render();
+    });
   }
 }

@@ -16,10 +16,6 @@ const LocalStore: Ilocal = {
   text: [],
 };
 
-/*function Add(clicked_price: string) {
-  LocalStore.cost += JSON.parse(clicked_price);
-  LocalStore.count++;
-}*/
  const CounterComponent = () => {
   setTimeout(() => {
     const quant = document.getElementById('basket-count-span') as html;
@@ -43,21 +39,6 @@ const LocalStore: Ilocal = {
           Cart.add(Number(cardId));
         }
         productsPage.classList.toggle('btn_active');
-        /*const clicked_price =
-          e.target?.parentElement.parentElement.innerText.slice(0, length - 2);
-        LocalStore.text.push(
-          e.target?.parentElement.parentElement.parentElement.innerText
-        );
-        LocalStore.html.push(
-          e.target?.parentElement.parentElement.parentElement.innerHTML
-        );
-        Add(clicked_price);
-        store.setItem('html', JSON.stringify(LocalStore.html));
-        store.setItem('text', JSON.stringify(LocalStore.text));
-        store.setItem('count', JSON.stringify(LocalStore.count));
-        store.setItem('cost', JSON.stringify(LocalStore.cost));
-        cost.innerText = JSON.parse(store.cost);
-        quant.innerText = JSON.parse(store.count);*/
         cost.innerText = String(Cart.getTotalCost());
         quant.innerText = String(Cart.getTotalCount());
       })

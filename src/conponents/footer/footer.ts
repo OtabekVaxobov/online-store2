@@ -1,4 +1,4 @@
-import {  getElement } from '../general/general';
+import { getElement } from '../general/general';
 
 export class Footer {
   static parentClass: string;
@@ -10,8 +10,9 @@ export class Footer {
     } else {
       parent = getElement(Footer.parentClass);
     }
-    
-    const wrapper = document.createElement('div');
+    let wrapper = document.querySelector('.footer-wrapper');
+    if (wrapper !== null) return;
+    wrapper = document.createElement('div');
     wrapper.classList.add('footer-wrapper');
 
     const footerTitle = document.createElement('span');

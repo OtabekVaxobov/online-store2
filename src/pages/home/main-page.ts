@@ -6,6 +6,7 @@ import { QueryParameters, FilteredProducts } from '../../conponents/queryParamet
 import { getElement } from '../../conponents/general/general';
 import { Footer } from '../../conponents/footer/footer';
 import CounterComponent from '../../conponents/counter/Counter';
+
 export class MainPage {
   groupCategory: FilterGroup;
   groupBrand: FilterGroup;
@@ -34,8 +35,7 @@ export class MainPage {
     this.productCard.draw();
     this.addListeneres();
     Footer.parentClass = '';
-    Footer.draw()
-    
+    Footer.draw();
   }
 
   private createPageBasis() {
