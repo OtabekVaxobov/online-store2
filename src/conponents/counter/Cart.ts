@@ -55,6 +55,12 @@ export class Cart {
     const cart = getCart();
     return cart.products.findIndex((el) => el.id === id) > -1;
   }
+
+  static clear(): void {
+    const cart = getCart();
+    cart.products = [];
+    setCart(cart);
+  }
 }
 
 function getCart(): StorageCart {

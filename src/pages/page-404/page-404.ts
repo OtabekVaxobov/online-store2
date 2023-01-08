@@ -1,4 +1,5 @@
 import { CreateNodeI, getElement } from '../../conponents/general/general';
+import { Footer } from '../../conponents/footer/footer';
 
 export class Page404 implements CreateNodeI {
   parentClass: string;
@@ -17,5 +18,7 @@ export class Page404 implements CreateNodeI {
 
     wrapper.append(errorMessage);
     parent.append(wrapper);
+    Footer.parentClass = '';
+    Footer.draw();
   }
 }
