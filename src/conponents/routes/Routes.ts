@@ -3,6 +3,7 @@ import { ProducDetails } from '../../pages/product-details/product-details-page'
 import { Page404 } from '../../pages/page-404/page-404';
 import { getElement } from '../general/general';
 import HeaderComponent from '../header/Header'
+import CartPage from '../../pages/cart-page/cart-page'
 const mainPage = new MainPage();
 const product = new ProducDetails('.body-container', 1);
 
@@ -37,7 +38,11 @@ export class Route {
       const page404 = new Page404('.body-container');
       page404.draw();
     },
-    '/cart': () => {console.log('cart page')},
+    '/cart': () => {
+      Route.clear();
+      HeaderComponent();
+      CartPage();
+    },
   };
 
   static getRoute(path: string) {
