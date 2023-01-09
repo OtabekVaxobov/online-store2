@@ -1,6 +1,6 @@
 import { CreateNodeI, getElement } from '../../conponents/general/general';
 import { DataI, productData } from '../../products/productsData';
-import { Routes } from '../../conponents/routes/Routes';
+import { Routes, PATH_NAME } from '../../conponents/routes/Routes';
 import { Cart } from '../../conponents/counter/Cart';
 import { renderHeaderCounter } from '../../conponents/header/Header';
 import { Buy } from '../../conponents/buy-page/buy-page';
@@ -23,7 +23,9 @@ export class ProducDetails implements ProducDetailsI {
       window.location.hash = Routes.Page404;
       return;
     }
+
     window.history.replaceState({}, '', '/' + window.location.hash);
+    //window.history.pushState({}, '', PATH_NAME + window.location.hash);
     const product = productData.products.find((el) => el.id === this.productId);
     if (!product) {
       throw new Error('Item not found by id.');
@@ -52,7 +54,7 @@ export class ProducDetails implements ProducDetailsI {
     liStore.classList.add('nav-links__item');
     const linkStore = document.createElement('a');
     linkStore.classList.add('nav__link', 'nav__link_store');
-    linkStore.href = '/';
+    linkStore.href = `${PATH_NAME}`;
     linkStore.textContent = 'Store';
     liStore.append(linkStore);
 

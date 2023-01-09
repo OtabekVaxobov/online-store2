@@ -109,7 +109,3 @@ export class MainPage {
     CounterComponent();
   }
 }
-
-
-
-

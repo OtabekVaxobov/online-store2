@@ -5,6 +5,7 @@ import { getElement } from '../general/general';
 import HeaderComponent from '../header/Header'
 const mainPage = new MainPage();
 const product = new ProducDetails('.body-container', 1);
+export let PATH_NAME: string;
 
 export enum Routes { 
   Home = '/', 
@@ -93,5 +94,16 @@ export class Route {
     window.addEventListener('load', Route.handlerLocation);
     window.addEventListener('hashchange', Route.handlerLocation);
     window.addEventListener('popstate', Route.handlerLocation);
+    Route.checkPathName();
+  }
+
+  static checkPathName() {
+    const path = localStorage.getItem('pathName');
+    if (path !== null) {
+      PATH_NAME = path;
+    } else {
+      PATH_NAME = window.location.pathname;
+      localStorage.setItem('pathName', PATH_NAME);
+    }
   }
 }

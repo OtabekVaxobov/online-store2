@@ -1,4 +1,5 @@
 import { Cart } from '../counter/Cart';
+import { PATH_NAME } from '../routes/Routes';
 
 const HeaderComponent = async (): Promise<void> => {
   const header: HTMLElement = document.createElement('header');
@@ -8,7 +9,7 @@ const HeaderComponent = async (): Promise<void> => {
   header.innerHTML = `
   <div class="header _main-container">
       <section class="header_container">
-      <a href="/" class="header_logo">Online Store</a>
+      <a href="${PATH_NAME}" class="header_logo">Online Store</a>
       <div class="header_cost">
       Cost: <span id="cost-span">${Cart.getTotalCost()}</span>$
       </div>
